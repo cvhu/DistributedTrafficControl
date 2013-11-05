@@ -1,0 +1,14 @@
+IntersectionServer
+ - state
+ - request queue
+ - neighbors
+
+VehicleClient
+ - current destination
+ - current intersection
+ - destination queue
+ 
+GridWorld
+ - available intersections
+ - utility methods
+ - responsible for the graphical demo

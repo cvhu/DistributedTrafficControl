@@ -10,6 +10,8 @@ public class VehicleClient {
 	private Integer	height;
 	private	Integer	width;
 	
+	// Destination reached?
+	private Boolean				destinationReached;
 	// Current Destination
 	private Coordinate			currentDestination;
 	// Current Intersection
@@ -22,6 +24,14 @@ public class VehicleClient {
 		this.height = height;
 		this.width = width;
 		this.destinationQueue = new LinkedList<Coordinate>();
+	}
+	
+	// Getters
+	public Boolean getDestinationReached() {
+		return this.destinationReached;
+	}
+	public Coordinate getCurrentDestination() {
+		return this.currentDestination;
 	}
 	
 	// Initialize
@@ -38,7 +48,6 @@ public class VehicleClient {
 		// Generate a random walk towards the destination
 		Coordinate c = new Coordinate(this.currentIntersection);
 		
-		System.out.println(c + " -> " + destination);
 		while((c.getX() != destination.getX()) || (c.getY() != destination.getY())){
 			
 			// Flip a coin
@@ -87,12 +96,26 @@ public class VehicleClient {
 		
 		// Set our next destination
 		if(this.destinationQueue.size() != 0)
-			this.currentDestination = this.destinationQueue.peek();
+			this.currentDestination = this.destinationQueue.peek();	
 		
-			System.out.println(this.destinationQueue);
-		
+		// If we have no future destination, then we've made it
+		if(this.destinationQueue.size() == 0)
+			this.destinationReached = true;
 	}
 	
+	// Move vehicle to next destination
+	public void move(){
+		// If we have no future destination, then we've made it
+		if(this.destinationQueue.size() == 0)
+			this.destinationReached = true;
+		
+		// Move to next destination
+		this.currentDestination = this.destinationQueue.remove();
+		
+		// If we have no future destination, then we've made it
+		if(this.destinationQueue.size() == 0)
+			this.destinationReached = true;
+	}
 	
 	// Random number generator
 	private Integer randInt(Integer min, Integer max) {
@@ -105,5 +128,7 @@ public class VehicleClient {
 		VehicleClient vehicle = new VehicleClient(8, 8);
 		vehicle.generateRoute();
 	}
+
+
 
 }

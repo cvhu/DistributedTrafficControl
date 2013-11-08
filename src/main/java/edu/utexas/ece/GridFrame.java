@@ -17,7 +17,7 @@ public class GridFrame extends JFrame {
 		this.add(new GridPanel(this.width, this.height));
 		this.setTitle("Grid World");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(this.width*64, this.height*64);
+		this.setSize(this.width*128, this.height*128);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -26,7 +26,7 @@ public class GridFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new GridFrame(16,16);
+		new GridFrame(4,4);
 
 	}
 

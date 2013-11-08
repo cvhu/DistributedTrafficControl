@@ -45,10 +45,37 @@ public class GridPanel extends JPanel {
 				g2d.setColor(Color.black);
 				double x = (w/(this.width + 1)) * (i+1);
 				double y = (h/(this.height + 1)) * (j+1);
-				Ellipse2D.Double circle = new Ellipse2D.Double(x, y, 16, 16);
+				Ellipse2D.Double circle = new Ellipse2D.Double(x-12, y-12, 24, 24);
 				g2d.fill(circle);
 			}
 		}
+		
+		// Draw the roads
+		int		ytop;
+		int		ybottom;
+		int		xleft;
+		int		xright;
+		
+		// Draw roads going north and south
+		ytop    = (int) (h/(this.height + 1));
+		ybottom = (int) ((h/(this.height + 1)) * (this.height));
+		for(int i = 0; i < this.width; i++){
+			xleft = (int) ((w/(this.width + 1)) * (i+1) - 12);
+			xright = (int) ((w/(this.width + 1)) * (i+1) + 12);
+			g2d.drawLine(xleft, ytop, xleft, ybottom);
+			g2d.drawLine(xright, ytop, xright, ybottom);
+		}
+		
+		// Draw roads going east and west
+		xleft =  (int) (w/(this.width + 1));
+		xright = (int) ((w/(this.width + 1)) * (this.width));
+		for(int i = 0; i < this.height; i++){
+			ytop    = (int) ((h/(this.height + 1)) * (i+1) - 12);
+			ybottom = (int) ((h/(this.height + 1)) * (i+1) + 12);
+			g2d.drawLine(xleft, ytop, xright, ytop);
+			g2d.drawLine(xleft, ybottom, xright, ybottom);
+		}
+		
 		
 	}
 

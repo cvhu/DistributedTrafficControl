@@ -27,7 +27,7 @@ public class GridFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new GridFrame(4,4);
+		new GridFrame(3,3);
 
 	}
 

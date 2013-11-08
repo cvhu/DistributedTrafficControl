@@ -43,7 +43,7 @@ public class GridPanel extends JPanel {
 		// Draw each intersection
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
-				g2d.setColor(Color.black);
+				g2d.setColor(Color.red);
 				double x = (w/(this.width + 1)) * (i+1);
 				double y = (h/(this.height + 1)) * (j+1);
 				Ellipse2D.Double circle = new Ellipse2D.Double(x-12, y-12, 24, 24);
@@ -58,8 +58,9 @@ public class GridPanel extends JPanel {
 		int		xright;
 		
 		// Draw roads going north and south
-		ytop    = (int) (h/(this.height + 1));
-		ybottom = (int) ((h/(this.height + 1)) * (this.height));
+		g2d.setColor(Color.black);
+		ytop    = (int) (h/(this.height + 1)) - 48;
+		ybottom = (int) ((h/(this.height + 1)) * (this.height)) + 48;
 		for(int i = 0; i < this.width; i++){
 			xleft = (int) ((w/(this.width + 1)) * (i+1) - 12);
 			xright = (int) ((w/(this.width + 1)) * (i+1) + 12);
@@ -68,8 +69,8 @@ public class GridPanel extends JPanel {
 		}
 		
 		// Draw roads going east and west
-		xleft =  (int) (w/(this.width + 1));
-		xright = (int) ((w/(this.width + 1)) * (this.width));
+		xleft =  (int) (w/(this.width + 1)) - 48;
+		xright = (int) ((w/(this.width + 1)) * (this.width)) + 48;
 		for(int i = 0; i < this.height; i++){
 			ytop    = (int) ((h/(this.height + 1)) * (i+1) - 12);
 			ybottom = (int) ((h/(this.height + 1)) * (i+1) + 12);

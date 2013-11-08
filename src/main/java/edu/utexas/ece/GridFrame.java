@@ -7,6 +7,7 @@ public class GridFrame extends JFrame {
 	private Integer	width;
 	private	Integer	height;
 	
+	
 	public GridFrame(Integer width, Integer height){
 		
 		// Set width and height

@@ -10,9 +10,10 @@ public class GridPanel extends JPanel {
 	// Grid dimensions
 	int		width;
 	int		height;
+	
+	
 
 	public GridPanel(Integer width, Integer height){
-
 		// Set width and height
 		this.width = width;
 		this.height = height;

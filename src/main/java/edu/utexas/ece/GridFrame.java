@@ -21,11 +21,10 @@ public class GridFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-
     }
 
     public static void main(String[] args) {
-        new GridFrame(3, 3);
+        new GridFrame(8, 8);
 
     }
 

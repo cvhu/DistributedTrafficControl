@@ -176,7 +176,7 @@ public class VehicleClient {
         
         System.out.print(this.currentIntersection + " " + this.currentDirection.name() + " -> ");
         
-        // Figure which we we're moving
+        // Figure which way we're moving
         if(this.currentIntersection.getX() == this.currentDestination.getX()-1)
             this.currentDirection = Direction.EAST;
         else if(this.currentIntersection.getX() == this.currentDestination.getX()+1)

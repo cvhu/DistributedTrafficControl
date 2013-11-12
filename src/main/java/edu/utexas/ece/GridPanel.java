@@ -10,14 +10,14 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GridPanel extends JPanel {
-
+	
     // Grid dimensions
     int width;
     int height;
     
     // Intersection light images
-    private BufferedImage verticle_left;
-    private BufferedImage verticle_straight;
+    private BufferedImage vertical_left;
+    private BufferedImage vertical_straight;
     private BufferedImage horizontal_left;
     private BufferedImage horizontal_straight;
 
@@ -28,8 +28,8 @@ public class GridPanel extends JPanel {
         
         // Open intersection light images
         try {
-			this.verticle_left = ImageIO.read(new File("VERTICAL_LEFT.png"));
-			this.verticle_straight = ImageIO.read(new File("VERTICAL_STRAIGHT.png"));
+			this.vertical_left = ImageIO.read(new File("VERTICAL_LEFT.png"));
+			this.vertical_straight = ImageIO.read(new File("VERTICAL_STRAIGHT.png"));
 			this.horizontal_left = ImageIO.read(new File("HORIZONTAL_LEFT.png"));
 			this.horizontal_straight = ImageIO.read(new File("HORIZONTAL_STRAIGHT.png"));
 		} catch (IOException e) {
@@ -37,7 +37,7 @@ public class GridPanel extends JPanel {
 			e.printStackTrace();
 		}
     }
-
+    
     public void paint(Graphics g) {
 
         super.paint(g);
@@ -67,8 +67,7 @@ public class GridPanel extends JPanel {
                 double x = (w / (this.width + 1)) * (i + 1);
                 double y = (h / (this.height + 1)) * (j + 1);
                 
-                // Draw intersection light
-                g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+	            g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);  
             }
         }
 

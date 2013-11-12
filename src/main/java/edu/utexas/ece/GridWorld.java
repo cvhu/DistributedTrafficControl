@@ -31,6 +31,7 @@ public class GridWorld {
         this.vehicles = new VehicleClient[nVehicles];
         for (int i = 0; i < nVehicles; i++) {
             this.vehicles[i] = new VehicleClient(height, width);
+            this.vehicles[i].generateRoute();
         }
     }
     
@@ -40,5 +41,8 @@ public class GridWorld {
 
     public static void main(String[] args) {
         System.out.println("Hello World!" + IntersectionServer.DURATION_STRAIGHT);
+        
+        GridWorld gridWorld = new GridWorld(8, 8, 16);
+        
     }
 }

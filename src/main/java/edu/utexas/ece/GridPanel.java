@@ -2,7 +2,11 @@ package edu.utexas.ece;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GridPanel extends JPanel {
@@ -10,11 +14,28 @@ public class GridPanel extends JPanel {
     // Grid dimensions
     int width;
     int height;
+    
+    // Intersection light images
+    private BufferedImage verticle_left;
+    private BufferedImage verticle_straight;
+    private BufferedImage horizontal_left;
+    private BufferedImage horizontal_straight;
 
     public GridPanel(Integer width, Integer height) {
         // Set width and height
         this.width = width;
         this.height = height;
+        
+        // Open intersection light images
+        try {
+			this.verticle_left = ImageIO.read(new File("VERTICAL_LEFT.png"));
+			this.verticle_straight = ImageIO.read(new File("VERTICAL_STRAIGHT.png"));
+			this.horizontal_left = ImageIO.read(new File("HORIZONTAL_LEFT.png"));
+			this.horizontal_straight = ImageIO.read(new File("HORIZONTAL_STRAIGHT.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public void paint(Graphics g) {
@@ -41,12 +62,13 @@ public class GridPanel extends JPanel {
         // Draw each intersection
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                g2d.setColor(Color.red);
+            	
+            	// Calculate center location of intersection
                 double x = (w / (this.width + 1)) * (i + 1);
                 double y = (h / (this.height + 1)) * (j + 1);
-                Ellipse2D.Double circle = new Ellipse2D.Double(x - 12, y - 12,
-                        24, 24);
-                g2d.fill(circle);
+                
+                // Draw intersection light
+                g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
             }
         }
 

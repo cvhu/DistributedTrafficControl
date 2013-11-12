@@ -9,7 +9,7 @@ public class GridWorld {
     private Integer width;
 
     // Components of grid
-    private HashMap<String, IntersectionServer> map;
+    private HashMap<Coordinate, IntersectionServer> intersectionsMap;
     private VehicleClient[] vehicles;
 
     // Constructor
@@ -19,11 +19,11 @@ public class GridWorld {
         this.width = width;
 
         // Initialize intersection map
-        this.map = new HashMap<String, IntersectionServer>();
+        this.intersectionsMap = new HashMap<Coordinate, IntersectionServer>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                String c = "(" + i + "," + j + ")";
-                this.map.put(c, new IntersectionServer());
+                Coordinate coordinate = new Coordinate(i, j);
+                this.intersectionsMap.put(coordinate, new IntersectionServer(coordinate));
             }
         }
 
@@ -33,8 +33,12 @@ public class GridWorld {
             this.vehicles[i] = new VehicleClient(height, width);
         }
     }
+    
+    public IntersectionServer getServer(Coordinate coordinate) {
+        return intersectionsMap.get(coordinate);
+    }
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Hello World!" + IntersectionServer.DURATION_STRAIGHT);
     }
 }

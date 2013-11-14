@@ -5,6 +5,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,6 +17,10 @@ public class GridPanel extends JPanel {
     // Grid dimensions
     int width;
     int height;
+    
+    // Required information
+    HashMap<VehicleClient, Coordinate>      vehicles;
+    HashMap<Coordinate, IntersectionServer> intersections;
     
     // Intersection light images
     private BufferedImage vertical_left;
@@ -25,6 +32,9 @@ public class GridPanel extends JPanel {
         // Set width and height
         this.width = width;
         this.height = height;
+        
+        this.vehicles = new HashMap<VehicleClient, Coordinate>();
+        this.intersections = new HashMap<Coordinate, IntersectionServer>();
         
         // Open intersection light images
         try {
@@ -61,12 +71,13 @@ public class GridPanel extends JPanel {
 
         // Draw each intersection
         for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-            	
+            for (int j = 0; j < this.height; j++) {                
+                
             	// Calculate center location of intersection
                 double x = (w / (this.width + 1)) * (i + 1);
-                double y = (h / (this.height + 1)) * (j + 1);
+                double y = (h / (this.height + 1)) * (this.height - j);
                 
+                // Draw default image if not in set
 	            g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);  
             }
         }
@@ -79,8 +90,8 @@ public class GridPanel extends JPanel {
 
         // Draw roads going north and south
         g2d.setColor(Color.black);
-        ytop = (int) (h / (this.height + 1)) - 48;
-        ybottom = (int) ((h / (this.height + 1)) * (this.height)) + 48;
+        ytop = (int) (h / (this.height + 1)) - 64;
+        ybottom = (int) ((h / (this.height + 1)) * (this.height)) + 64;
         for (int i = 0; i < this.width; i++) {
             xleft = (int) ((w / (this.width + 1)) * (i + 1) - 12);
             xright = (int) ((w / (this.width + 1)) * (i + 1) + 12);
@@ -89,15 +100,14 @@ public class GridPanel extends JPanel {
         }
 
         // Draw roads going east and west
-        xleft = (int) (w / (this.width + 1)) - 48;
-        xright = (int) ((w / (this.width + 1)) * (this.width)) + 48;
+        xleft = (int) (w / (this.width + 1)) - 64;
+        xright = (int) ((w / (this.width + 1)) * (this.width)) + 64;
         for (int i = 0; i < this.height; i++) {
             ytop = (int) ((h / (this.height + 1)) * (i + 1) - 12);
             ybottom = (int) ((h / (this.height + 1)) * (i + 1) + 12);
             g2d.drawLine(xleft, ytop, xright, ytop);
             g2d.drawLine(xleft, ybottom, xright, ybottom);
         }
-
     }
 
     public static void main(String[] args) {

@@ -20,7 +20,7 @@ public class GridPanel extends JPanel {
     
     // Required information
     HashMap<VehicleClient, Coordinate>      vehicles;
-    HashMap<Coordinate, IntersectionServer> intersections;
+    IntersectionServer[][] intersections;
     
     // Intersection light images
     private BufferedImage vertical_left;
@@ -34,7 +34,7 @@ public class GridPanel extends JPanel {
         this.height = height;
         
         this.vehicles = new HashMap<VehicleClient, Coordinate>();
-        this.intersections = new HashMap<Coordinate, IntersectionServer>();
+        this.intersections = new IntersectionServer[this.width][this.height];
         
         // Open intersection light images
         try {
@@ -77,8 +77,15 @@ public class GridPanel extends JPanel {
                 double x = (w / (this.width + 1)) * (i + 1);
                 double y = (h / (this.height + 1)) * (this.height - j);
                 
+                // If we have information on the intersection...
+                if(intersections[i][j] != null){
+                    // Get the state of the intersection
+                    // TODO
+                }
                 // Draw default image if not in set
-	            g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);  
+                else{
+    	            g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+                }
             }
         }
 

@@ -19,8 +19,8 @@ public class GridPanel extends JPanel {
     int height;
     
     // Required information
-    HashMap<VehicleClient, Coordinate>      vehicles;
-    IntersectionServer[][] intersections;
+    HashMap<VehicleClient, Orientation> vehicles;
+    IntersectionServer[][]              intersections;
     
     // Intersection light images
     private BufferedImage vertical_left;
@@ -33,7 +33,7 @@ public class GridPanel extends JPanel {
         this.width = width;
         this.height = height;
         
-        this.vehicles = new HashMap<VehicleClient, Coordinate>();
+        this.vehicles = new HashMap<VehicleClient, Orientation>();
         this.intersections = new IntersectionServer[this.width][this.height];
         
         // Open intersection light images
@@ -65,29 +65,8 @@ public class GridPanel extends JPanel {
         double w = size.getWidth();
         double h = size.getHeight();
 
-        System.out.println(w + " " + h);
-
+        // Use 1 pixel stroke
         g2d.setStroke(new BasicStroke(1));
-
-        // Draw each intersection
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {                
-                
-            	// Calculate center location of intersection
-                double x = (w / (this.width + 1)) * (i + 1);
-                double y = (h / (this.height + 1)) * (this.height - j);
-                
-                // If we have information on the intersection...
-                if(intersections[i][j] != null){
-                    // Get the state of the intersection
-                    // TODO
-                }
-                // Draw default image if not in set
-                else{
-    	            g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
-                }
-            }
-        }
 
         // Draw the roads
         int ytop;
@@ -115,8 +94,71 @@ public class GridPanel extends JPanel {
             g2d.drawLine(xleft, ytop, xright, ytop);
             g2d.drawLine(xleft, ybottom, xright, ybottom);
         }
+        
+        
+        // Draw each intersection
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {                
+                
+                // Calculate center location of intersection
+                double x = (w / (this.width + 1)) * (i + 1);
+                double y = (h / (this.height + 1)) * (this.height - j);
+                
+                // If we have information on the intersection...
+                if(intersections[i][j] != null){
+                    // Get the state of the intersection
+                    // TODO
+                }
+                // Draw default image if not in set
+                else{
+                    g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+                }
+            }
+        }
+        
+        
+        // Draw each vehicle
+        g2d.setColor(Color.red);
+        int[][][] numVehicles = new int[this.width][this.height][4];
+        for(VehicleClient v : this.vehicles.keySet()) {
+           
+            // Get x, y coordinates and direction
+            Integer xCoordinate = v.getCurrentIntersection().getX();
+            Integer yCoordinate = v.getCurrentIntersection().getY();
+            int directionInt = 0;
+            if(v.getCurrentDirection() == Direction.NORTH)
+                directionInt = 0;
+            else if(v.getCurrentDirection() == Direction.EAST)
+                directionInt = 1;
+            else if(v.getCurrentDirection() == Direction.SOUTH)
+                directionInt = 2;
+            else if(v.getCurrentDirection() == Direction.WEST)
+                directionInt = 3;
+            else{
+                System.err.println("ERROR: Paint invalid direction");
+                System.exit(1);
+            }
+            
+            // Calculate center location of intersection
+            double x = (w / (this.width + 1)) * (xCoordinate + 1);
+            double y = (h / (this.height + 1)) * (this.height - yCoordinate);
+            
+            // Add vehicle to total number
+            numVehicles[xCoordinate][yCoordinate][directionInt]++;
+        }
+        
     }
 
+    // Set vehicle
+    public void setVehicle(VehicleClient v){
+        this.vehicles.put(v, new Orientation(v.getCurrentDirection(), v.getCurrentIntersection()));
+    }
+    
+    public void setServer(IntersectionServer s){
+        // TODO
+        // Get x and y coordinates and assign in matrix
+    }
+    
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 

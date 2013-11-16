@@ -1,87 +1,114 @@
 package edu.utexas.ece;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IntersectionServer {
     
-    public static final int DURATION_STRAIGHT = 4;
-    public static final int DURATION_LEFT = 2;
+    // The duration of the corresponding states in milliseconds.
+    public static final int DURATION_STRAIGHT = 4000;
+    public static final int DURATION_LEFT = 2000;
     
     private Coordinate coordinate;
-    private ArrayList<VehicleClient> requestsQueue;
-    private int availableSlots = 0;
+    private HashMap<Direction, ArrayList<VehicleClient>> requestsMap;
+    private HashMap<IntersectionState, Integer> durationsMap;
     private IntersectionState currentState;
     
     public IntersectionServer(Coordinate coordinate) {
         this.coordinate = coordinate;
-        requestsQueue = new ArrayList<VehicleClient>();
-        availableSlots = DURATION_STRAIGHT;
-        currentState = IntersectionState.VERTICAL_STRAIGHT;
+        requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
+        durationsMap = new HashMap<IntersectionState, Integer>();
+        init();
         new Thread(new Runnable() {
             
             @Override
             public void run() {
-                
+                while (true) {
+                    loopStates();
+                }
             }
         }).run();
     }
     
-    public void sendRequest(VehicleClient client) {
+    public void loopStates() {
+        for (IntersectionState state : IntersectionState.values()) {
+            currentState = state;
+            System.out.printf("Processing state: %s\n", currentState);
+            long start = System.currentTimeMillis();
+            long end = start + durationsMap.get(state);
+            while (System.currentTimeMillis() < end) {
+                processQueue();
+            }
+        }
+    }
+    
+    public IntersectionState getState() {
+        return currentState;
+    }
+    
+    public void processQueue() {
         switch (currentState) {
             case VERTICAL_STRAIGHT:
-                if (availableSlots > 0) {
-                    if (coordinate.isStraight(client.getCurrentDestination(), client.getCurrentDirection())) {
-                        availableSlots--;
-                        client.handleRequestOkay();
-                    } else {
-                        requestsQueue.add(client);
-                    }
-                } else {
-                    currentState = IntersectionState.VERTICAL_LEFT;
-                    availableSlots = DURATION_LEFT;
-                    requestsQueue.add(client);
-                }
+                popRequests(Direction.NORTH, true);
+                popRequests(Direction.SOUTH, true);
             case VERTICAL_LEFT:
-                if (availableSlots > 0) {
-                    if (coordinate.isLeft(client.getCurrentDestination(), client.getCurrentDirection())) {
-                        availableSlots--;
-                        client.handleRequestOkay();
-                    } else {
-                        requestsQueue.add(client);
-                    }
-                } else {
-                    currentState = IntersectionState.HORIZONTAL_STRAIGHT;
-                    availableSlots = DURATION_STRAIGHT;
-                    requestsQueue.add(client);
-                }
+                popRequests(Direction.NORTH, false);
+                popRequests(Direction.SOUTH, false);
             case HORIZONTAL_STRAIGHT:
-                if (availableSlots > 0) {
-                    if (coordinate.isStraight(client.getCurrentDestination(), client.getCurrentDirection())) {
-                        availableSlots--;
-                        client.handleRequestOkay();
-                    } else {
-                        requestsQueue.add(client);
-                    }
-                } else {
-                    currentState = IntersectionState.HORIZONTAL_LEFT;
-                    availableSlots = DURATION_LEFT;
-                    requestsQueue.add(client);
-                }
+                popRequests(Direction.EAST, true);
+                popRequests(Direction.WEST, true);
             case HORIZONTAL_LEFT:
-                if (availableSlots > 0) {
-                    if (coordinate.isLeft(client.getCurrentDestination(), client.getCurrentDirection())) {
-                        availableSlots--;
-                        client.handleRequestOkay();
-                    } else {
-                        requestsQueue.add(client);
-                    }
-                } else {
-                    currentState = IntersectionState.VERTICAL_STRAIGHT;
-                    availableSlots = DURATION_STRAIGHT;
-                    requestsQueue.add(client);
-                }
+                popRequests(Direction.EAST, false);
+                popRequests(Direction.WEST, false);
             default:
-                System.out.println("Invalid server state");
+                //System.out.println("Invalid server state");
         }
+    }
+    
+    public synchronized void popRequests(Direction direction, boolean straight) {
+        ArrayList<VehicleClient> requests = requestsMap.get(direction);
+        
+        if (!requests.isEmpty()) {
+            VehicleClient vehicle = requests.get(0);
+            boolean valid;
+            if (straight) {
+                valid = coordinate.isStraight(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
+            } else {
+                valid = coordinate.isLeft(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
+            }
+            if (valid) {
+                vehicle.handleRequestOkay();
+                requests.remove(0);
+                requestsMap.put(direction, requests);
+            }
+        }
+    }
+    
+    public void init() {
+        for (Direction direction : Direction.values()) {
+            requestsMap.put(direction, new ArrayList<VehicleClient>());
+        }
+        for (IntersectionState state : IntersectionState.values()) {
+            switch (state) {
+                case HORIZONTAL_LEFT:
+                case VERTICAL_LEFT:
+                    durationsMap.put(state, DURATION_LEFT);
+                case HORIZONTAL_STRAIGHT:
+                case VERTICAL_STRAIGHT:
+                    durationsMap.put(state, DURATION_STRAIGHT);
+                default:
+            }
+        }
+    }
+    
+    public synchronized void sendRequest(VehicleClient client) {
+        Direction direction = client.getCurrentDirection();
+        ArrayList<VehicleClient> requests = requestsMap.get(direction);
+        requests.add(client);
+        requestsMap.put(direction, requests);
+    }
+    
+    public static void main(String[] argv) {
+        new IntersectionServer(new Coordinate(2, 4));
     }
 }

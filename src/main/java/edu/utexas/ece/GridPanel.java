@@ -127,11 +127,24 @@ public class GridPanel extends JPanel {
                 // If we have information on the intersection...
                 if(intersections[i][j] != null){
                     // Get the state of the intersection
-                    // TODO
-                }
-                // Draw default image if not in set
-                else{
-                    g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+                    IntersectionState	state = intersections[i][j].getState();
+                    switch(state){
+	                    case VERTICAL_LEFT:
+	                    	g2d.drawImage(this.vertical_left, (int)(x-12), (int)(y-12), null);
+	                    	break;
+	                    case VERTICAL_STRAIGHT:
+	                    	g2d.drawImage(this.vertical_straight, (int)(x-12), (int)(y-12), null);
+	                    	break;
+	                    case HORIZONTAL_LEFT:
+	                    	g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+	                    	break;
+	                    case HORIZONTAL_STRAIGHT:
+	                    	g2d.drawImage(this.horizontal_straight, (int)(x-12), (int)(y-12), null);
+	                    	break;
+	                    default:
+	                    	System.err.println("ERROR: Paint invalid server state");
+	                    	System.exit(1);
+                    }
                 }
             }
         }
@@ -207,10 +220,12 @@ public class GridPanel extends JPanel {
         this.vehicles.put(v, new Orientation(v.getCurrentOrientation()));
     }
     
-    public void setServer(IntersectionServer s){
+    public void setIntersection(IntersectionServer intersection){
         // TODO
         // Get x and y coordinates and assign in matrix
-    	
+    	Integer x = intersection.getCoordinate().getX();
+    	Integer y = intersection.getCoordinate().getY();
+    	this.intersections[x][y] = intersection;
     }
     
     public static void main(String[] args) {

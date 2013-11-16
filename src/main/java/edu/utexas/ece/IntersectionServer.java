@@ -88,10 +88,13 @@ public class IntersectionServer implements Runnable{
     
     public synchronized void popRequests(Direction direction, boolean straight) {
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
-        
+        if (requests.size() > 0) {
+            System.out.println("pop: " + Arrays.asList(requests));
+        }
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
-            if (vehicle.getCurrentDestination() == null) {
+            VehicleAction action = vehicle.getAction();
+            if ((vehicle.getCurrentDestination() == null) || (action == null)) {
                 System.out.println("Before pop" + Arrays.asList(requests));
                 vehicle.handleRequestOkay();
                 requests.remove(0);
@@ -99,7 +102,6 @@ public class IntersectionServer implements Runnable{
                 requestsMap.put(direction, requests);
                 return;
             }
-            VehicleAction action = vehicle.getAction();
             System.out.println("popping queue: " + vehicle.toString());
 //            vehicle.handleRequestOkay();
             boolean valid;

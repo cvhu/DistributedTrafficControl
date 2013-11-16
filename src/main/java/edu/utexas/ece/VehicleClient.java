@@ -1,5 +1,6 @@
 package edu.utexas.ece;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -22,23 +23,23 @@ public class VehicleClient implements Runnable{
 
     // Getters
     public Direction getCurrentDirection(){
-        return this.currentDirection;
+        return currentDirection;
     }
     
     public Coordinate getCurrentIntersection(){
-        return this.currentIntersection;
+        return currentIntersection;
     }
     
     public Boolean getDestinationReached() {
-        return this.destinationReached;
+        return destinationReached;
     }
 
     public Coordinate getCurrentDestination() {
-        return this.currentDestination;
+        return currentDestination;
     }
     
     public Orientation getCurrentOrientation(){
-    	return new Orientation(this.currentDirection, this.currentIntersection);
+    	return new Orientation(currentDirection, currentIntersection);
     }
 
     // Initialize
@@ -59,42 +60,42 @@ public class VehicleClient implements Runnable{
         // Face north
         case 0:
             // If we actually have to go south, then take a turn-around
-            if ((this.currentIntersection.getY() > destination.getY())
-                    && (this.currentIntersection.getX() == destination.getX())) {
-                this.currentIntersection.setY(this.currentIntersection.getY() - 1);
-                this.currentDirection = Direction.SOUTH;
+            if ((currentIntersection.getY() > destination.getY())
+                    && (currentIntersection.getX() == destination.getX())) {
+                currentIntersection.setY(currentIntersection.getY() - 1);
+                currentDirection = Direction.SOUTH;
             } else
-                this.currentDirection = Direction.NORTH;
+                currentDirection = Direction.NORTH;
             break;
         // Face east
         case 1:
             // If we actually have to go west, then take a turn-around
-            if ((this.currentIntersection.getX() > destination.getX())
-                    && (this.currentIntersection.getY() == destination.getY())) {
-                this.currentIntersection.setX(this.currentIntersection.getX() - 1);
-                this.currentDirection = Direction.WEST;
+            if ((currentIntersection.getX() > destination.getX())
+                    && (currentIntersection.getY() == destination.getY())) {
+                currentIntersection.setX(currentIntersection.getX() - 1);
+                currentDirection = Direction.WEST;
             } else
-                this.currentDirection = Direction.EAST;
+                currentDirection = Direction.EAST;
             break;
         // Face west
         case 2:
             // If we actually have to go east, then take a turn-around
-            if ((this.currentIntersection.getX() < destination.getX())
-                    && (this.currentIntersection.getY() == destination.getY())) {
-                this.currentIntersection.setX(this.currentIntersection.getX() + 1);
-                this.currentDirection = Direction.EAST;
+            if ((currentIntersection.getX() < destination.getX())
+                    && (currentIntersection.getY() == destination.getY())) {
+                currentIntersection.setX(currentIntersection.getX() + 1);
+                currentDirection = Direction.EAST;
             } else
-                this.currentDirection = Direction.WEST;
+                currentDirection = Direction.WEST;
             break;
         // Face south
         case 3:
             // If we actually have to go north, then take a turn-around
-            if ((this.currentIntersection.getY() < destination.getY())
-                    && (this.currentIntersection.getX() == destination.getX())) {
-                this.currentIntersection.setY(this.currentIntersection.getY() + 1);
-                this.currentDirection = Direction.NORTH;
+            if ((currentIntersection.getY() < destination.getY())
+                    && (currentIntersection.getX() == destination.getX())) {
+                currentIntersection.setY(currentIntersection.getY() + 1);
+                currentDirection = Direction.NORTH;
             } else
-                this.currentDirection = Direction.SOUTH;
+                currentDirection = Direction.SOUTH;
             break;
         // Should not happen
         default:
@@ -103,7 +104,7 @@ public class VehicleClient implements Runnable{
         }
 
         // Generate a random walk towards the destination
-        Coordinate c = new Coordinate(this.currentIntersection);
+        Coordinate c = new Coordinate(currentIntersection.getX(), currentIntersection.getY());
 
         while ((c.getX() != destination.getX())
                 || (c.getY() != destination.getY())) {
@@ -149,7 +150,7 @@ public class VehicleClient implements Runnable{
             }
 
             // Add walk to destination queue
-            this.destinationQueue.add(new Coordinate(c));
+            this.destinationQueue.add(new Coordinate(c.getX(), c.getY()));
         }
 
         // Set our next destination
@@ -159,10 +160,12 @@ public class VehicleClient implements Runnable{
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0)
             this.destinationReached = true;
+        
+        System.out.printf("Destinations: %s\n", Arrays.asList(destinationQueue).toString());
     }
 
     // Move vehicle to next destination
-    public void handleRequestOkay() {
+    public synchronized void handleRequestOkay() {
         System.out.println("request okay");
         
         // If we have no future destination, then we've made it
@@ -171,7 +174,7 @@ public class VehicleClient implements Runnable{
             return;
         }
         
-        System.out.print(this.currentIntersection + " " + this.currentDirection.name() + " -> ");
+        //System.out.print(this.currentIntersection + " " + this.currentDirection.name() + " -> ");
         
         // Figure which way we're moving
         if(this.currentIntersection.getX() == this.currentDestination.getX()-1)
@@ -203,7 +206,8 @@ public class VehicleClient implements Runnable{
     }
 
     public String toString(){
-        return String.format("%s\n%s\n%s\n%s\n", currentIntersection, currentDirection, currentDestination, destinationQueue);
+        //return String.format("%s\n%s\n%s\n%s\n", currentIntersection, currentDirection, currentDestination, destinationQueue);
+        return currentIntersection.toString();
     }
     
     public static void main(String[] args) {
@@ -214,8 +218,8 @@ public class VehicleClient implements Runnable{
 
     @Override
     public void run() {
-        while (!destinationQueue.isEmpty()) {
-            System.out.println(currentIntersection);
+        while (getCurrentDestination() != null) {
+            //System.out.println(currentIntersection);
             IntersectionServer intersection = gridWorld.getServer(currentIntersection);
             try {
                 Thread.sleep(100);

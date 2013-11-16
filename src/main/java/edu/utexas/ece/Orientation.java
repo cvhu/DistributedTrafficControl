@@ -8,15 +8,9 @@ public class Orientation {
     // Constructor
     public Orientation(Direction direction, Coordinate coordinate){
         this.direction = direction;
-        this.coordinate = new Coordinate(coordinate);
+        this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
     }
-    
-    // Copy constructor
-    public Orientation(Orientation o){
-        this.direction = o.getDirection();
-        this.coordinate = new Coordinate(o.getCoordinate());
-    }
-    
+        
     public Direction getDirection(){
         return this.direction;
     }

@@ -10,11 +10,6 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Coordinate(Coordinate c) {
-        this.x = c.getX();
-        this.y = c.getY();
-    }
-
     public Integer getX() {
         return this.x;
     }
@@ -37,16 +32,29 @@ public class Coordinate {
     }
     
     public boolean isVertical(Coordinate coordinate) {
-        return (this.x == coordinate.getX()) && (Math.abs(this.y - coordinate.getY()) == 1);
+        boolean valid = false;
+        try {
+            valid = (x == coordinate.getX()) && (Math.abs(y - coordinate.getY()) == 1);
+        } catch (NullPointerException e) {
+            System.err.printf("intersection: %s destination: %s\n", this, coordinate);
+        }
+        return valid; 
     }
     
     public boolean isHorizontal(Coordinate coordinate) {
-        return (this.y == coordinate.getY()) && (Math.abs(this.x - coordinate.getX()) == 1);
+        boolean valid = false;
+        try {
+            valid = (y == coordinate.getY()) && (Math.abs(x - coordinate.getX()) == 1);
+        } catch (NullPointerException e) {
+            System.err.printf("intersection: %s destination: %s\n", this, coordinate);
+        }
+        return valid;
     }
     
     public boolean isStraight(Coordinate coordinate, Direction direction) {
         boolean directionVertical = (direction == Direction.NORTH) || (direction == Direction.SOUTH);
         boolean directionHorizontal = (direction == Direction.EAST) || (direction == Direction.WEST);
+        System.out.printf("isStraight: %s %s %s %s %s %s %s\n", isVertical(coordinate), directionVertical, isHorizontal(coordinate), directionHorizontal, this, direction, coordinate);
         return (isVertical(coordinate) && directionVertical) || (isHorizontal(coordinate) && directionHorizontal);
     }
     
@@ -55,6 +63,7 @@ public class Coordinate {
         boolean southLeft = (direction == Direction.SOUTH) && (isHorizontal(coordinate) && (coordinate.getX() == (x + 1)));
         boolean eastLeft = (direction == Direction.EAST) && (isVertical(coordinate) && (coordinate.getY() == (y + 1)));
         boolean westLeft = (direction == Direction.WEST) && (isVertical(coordinate) && (coordinate.getY() == (y - 1)));
+        System.out.printf("isStraight: %s %s %s %s %s %s %s\n", northLeft, southLeft, eastLeft, westLeft, this, direction, coordinate);
         return northLeft || southLeft || eastLeft || westLeft;
     }
 }

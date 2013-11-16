@@ -1,6 +1,7 @@
 package edu.utexas.ece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class IntersectionServer implements Runnable{
@@ -75,22 +76,33 @@ public class IntersectionServer implements Runnable{
         }
     }
     
+    public void printRequests() {
+        for (Direction direction : requestsMap.keySet()) {
+            System.out.printf("request[%s]: %s\n", direction, Arrays.asList(requestsMap.get(direction)).toString());
+        }
+    }
+    
     public synchronized void popRequests(Direction direction, boolean straight) {
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
         
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
             System.out.println("popping queue: " + vehicle.toString());
+//            vehicle.handleRequestOkay();
             boolean valid;
             if (straight) {
                 valid = coordinate.isStraight(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
             } else {
                 valid = coordinate.isLeft(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
             }
-            if (valid) {
+            if (true) {
+                System.out.println("Before pop" + Arrays.asList(requests));
                 vehicle.handleRequestOkay();
                 requests.remove(0);
+                System.out.println("After pop" + Arrays.asList(requests));
                 requestsMap.put(direction, requests);
+            } else {
+                System.out.println("Invalid request");
             }
         } else {
 //            System.out.println("empty queue");
@@ -114,12 +126,18 @@ public class IntersectionServer implements Runnable{
         }
     }
     
-    public synchronized void sendRequest(VehicleClient client) {
-        Direction direction = client.getCurrentDirection();
-//        System.out.println("Get request: " + direction);
-        ArrayList<VehicleClient> requests = requestsMap.get(direction);
-        requests.add(client);
-        requestsMap.put(direction, requests);
+    public synchronized void sendRequest(final VehicleClient client) {
+        new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+                Direction direction = client.getCurrentDirection();
+                ArrayList<VehicleClient> requests = requestsMap.get(direction);
+                requests.add(client);
+                requestsMap.put(direction, requests);
+                printRequests();
+            }
+        }).start();
     }
     
     public static void main(String[] argv) {

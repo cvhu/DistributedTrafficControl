@@ -235,7 +235,7 @@ public class GridPanel extends JPanel {
     }
 
     public synchronized void setVehicle(VehicleClient v){
-        this.vehicles.put(v, new Orientation(v.getCurrentOrientation()));
+        this.vehicles.put(v, new Orientation(v.getCurrentDirection(), v.getCurrentIntersection()));
     }
     
     public synchronized void setIntersection(IntersectionServer intersection){

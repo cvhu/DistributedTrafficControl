@@ -190,6 +190,15 @@ public class GridPanel extends JPanel {
             		x -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
             		// Move to right lane
             		y += 2;
+            		// Draw westward arrow
+            		g2d.drawLine((int)(x+4), (int)(y+0), (int)(x+0), (int)(y+0));
+            		g2d.drawLine((int)(x+5), (int)(y+1), (int)(x+1), (int)(y+1));
+            		g2d.drawLine((int)(x+6), (int)(y+2), (int)(x+2), (int)(y+2));
+            		g2d.drawLine((int)(x+7), (int)(y+3), (int)(x+3), (int)(y+3));
+            		g2d.drawLine((int)(x+7), (int)(y+4), (int)(x+3), (int)(y+4));
+            		g2d.drawLine((int)(x+6), (int)(y+5), (int)(x+2), (int)(y+5));
+            		g2d.drawLine((int)(x+5), (int)(y+6), (int)(x+1), (int)(y+6));
+            		g2d.drawLine((int)(x+4), (int)(y+7), (int)(x+0), (int)(y+7));
             		break;
             	// Going south
             	case 2:
@@ -204,10 +213,19 @@ public class GridPanel extends JPanel {
             		x += 16 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
             		// Move to right lane
             		y -= 10;
+            		// Draw westward arrow
+            		g2d.drawLine((int)(x+3), (int)(y+0), (int)(x+7), (int)(y+0));
+            		g2d.drawLine((int)(x+2), (int)(y+1), (int)(x+6), (int)(y+1));
+            		g2d.drawLine((int)(x+1), (int)(y+2), (int)(x+5), (int)(y+2));
+            		g2d.drawLine((int)(x+0), (int)(y+3), (int)(x+4), (int)(y+3));
+            		g2d.drawLine((int)(x+0), (int)(y+4), (int)(x+4), (int)(y+4));
+            		g2d.drawLine((int)(x+1), (int)(y+5), (int)(x+5), (int)(y+5));
+            		g2d.drawLine((int)(x+2), (int)(y+6), (int)(x+6), (int)(y+6));
+            		g2d.drawLine((int)(x+3), (int)(y+7), (int)(x+7), (int)(y+7));
             		break;
             }
             // Draw vehicle
-            g2d.fillOval((int)x, (int)y, 8, 8);
+            //g2d.fillOval((int)x, (int)y, 8, 8);
             
             // Add vehicle to total number
             numVehicles[xCoordinate][yCoordinate][directionInt]++;

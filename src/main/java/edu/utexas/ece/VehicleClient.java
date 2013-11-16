@@ -215,15 +215,16 @@ public class VehicleClient implements Runnable{
     @Override
     public void run() {
         while (!destinationQueue.isEmpty()) {
-//            System.out.println(currentIntersection);
+            System.out.println(currentIntersection);
             IntersectionServer intersection = gridWorld.getServer(currentIntersection);
             try {
-                Thread.sleep(5000);
+                Thread.sleep(100);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             intersection.sendRequest(this);
         }
+        gridWorld.removeVehicle(this);
     }
 
 }

@@ -93,7 +93,7 @@ public class IntersectionServer implements Runnable{
                 requestsMap.put(direction, requests);
             }
         } else {
-            System.out.println("empty queue");
+//            System.out.println("empty queue");
         }
     }
     

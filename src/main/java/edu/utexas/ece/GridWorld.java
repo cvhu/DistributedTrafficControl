@@ -61,6 +61,6 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        new GridWorld(3, 4, 100);
+        new GridWorld(4, 4, 250);
     }
 }

@@ -57,13 +57,12 @@ public class VehicleClient implements Runnable{
     public void generateRoute(Integer height, Integer width) {
 
         // Generate random origin
-//        this.currentIntersection = new Coordinate(randInt(0, width - 1), randInt(0, height - 1));
-        this.currentIntersection = new Coordinate(width - 1, height - 1);
+        this.currentIntersection = new Coordinate(randInt(0, width - 1), randInt(0, height - 1));
+//        this.currentIntersection = new Coordinate(width - 1, height - 1);
 
         // Generate a random destination
-//        Coordinate destination = new Coordinate(randInt(0, width - 1),
-//                randInt(0, height - 1));
-        finalDestination = new Coordinate(0, 0);
+        finalDestination = new Coordinate(randInt(0, width - 1), randInt(0, height - 1));
+//        finalDestination = new Coordinate(0, 0);
         
         Coordinate destination = finalDestination;
 

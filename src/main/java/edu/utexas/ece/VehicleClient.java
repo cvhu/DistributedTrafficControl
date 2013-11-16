@@ -15,6 +15,7 @@ public class VehicleClient implements Runnable{
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
+        destinationReached = false;
         this.gridWorld = gridWorld;
         this.destinationQueue = new LinkedList<Coordinate>();
     }
@@ -184,7 +185,7 @@ public class VehicleClient implements Runnable{
         this.currentIntersection = this.destinationQueue.remove();
         this.currentDestination = this.destinationQueue.peek();
 
-        System.out.println(this.currentIntersection + " " + this.currentDirection.name());
+//        System.out.println(this.currentIntersection + " " + this.currentDirection.name());
 
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0)
@@ -212,7 +213,8 @@ public class VehicleClient implements Runnable{
 
     @Override
     public void run() {
-        while (!destinationReached) {
+        while (!destinationQueue.isEmpty()) {
+//            System.out.println(currentIntersection);
             IntersectionServer intersection = gridWorld.getServer(currentIntersection);
             intersection.sendRequest(this);
         }

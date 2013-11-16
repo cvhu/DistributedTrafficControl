@@ -9,7 +9,7 @@ public class GridWorld {
     
     private GridFrame	frame;
     // Components of grid
-    private HashMap<Coordinate, IntersectionServer> intersectionsMap;
+    private HashMap<String, IntersectionServer> intersectionsMap;
     private VehicleClient[] vehicles;
 
     public GridWorld(Integer height, Integer width, Integer nVehicles) {
@@ -22,24 +22,25 @@ public class GridWorld {
 
         // Initialize intersection map
         
-        this.intersectionsMap = new HashMap<Coordinate, IntersectionServer>();
+        intersectionsMap = new HashMap<String, IntersectionServer>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
                 IntersectionServer intersection = new IntersectionServer(coordinate, this);
-                this.intersectionsMap.put(coordinate, intersection);
+                intersectionsMap.put(coordinate.toString(), intersection);
                 new Thread(intersection).start();
-                
             }
         }
 
         // Initialize vehicle clients
         this.vehicles = new VehicleClient[nVehicles];
         for (int i = 0; i < nVehicles; i++) {
-            this.vehicles[i] = new VehicleClient(this);
-            this.vehicles[i].generateRoute(height, width);
+            VehicleClient vehicle = new VehicleClient(this);
+            this.vehicles[i] = vehicle;
+            vehicle.generateRoute(height, width);
             System.out.println(this.vehicles[i]);
             setVehicle(this.vehicles[i]);
+            new Thread(vehicle).start();
         }
     }
     
@@ -52,10 +53,10 @@ public class GridWorld {
     }
     
     public IntersectionServer getServer(Coordinate coordinate) {
-        return intersectionsMap.get(coordinate);
+        return intersectionsMap.get(coordinate.toString());
     }
 
     public static void main(String[] args) {
-        new GridWorld(2, 2, 16);
+        new GridWorld(2, 2, 10);
     }
 }

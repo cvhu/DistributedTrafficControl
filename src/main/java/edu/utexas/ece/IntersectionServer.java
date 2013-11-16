@@ -80,6 +80,7 @@ public class IntersectionServer implements Runnable{
         
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
+            System.out.println("popping queue: " + vehicle.toString());
             boolean valid;
             if (straight) {
                 valid = coordinate.isStraight(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
@@ -91,6 +92,8 @@ public class IntersectionServer implements Runnable{
                 requests.remove(0);
                 requestsMap.put(direction, requests);
             }
+        } else {
+            System.out.println("empty queue");
         }
     }
     
@@ -113,6 +116,7 @@ public class IntersectionServer implements Runnable{
     
     public synchronized void sendRequest(VehicleClient client) {
         Direction direction = client.getCurrentDirection();
+//        System.out.println("Get request: " + direction);
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
         requests.add(client);
         requestsMap.put(direction, requests);

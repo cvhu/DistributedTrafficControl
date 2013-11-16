@@ -20,12 +20,8 @@ public class BlueRandomSwapFilter extends RGBImageFilter{
 	
 	@Override
 	public int filterRGB(int x, int y, int rgb) {
-		//if(rgb == 0x0000ff00){
-		int newColor = (c.getRed() << 24) | (c.getGreen() << 16) | (c.getBlue() << 8);
-			return (rgb & 0xffff00ff) | newColor;
-		//}
-		//else
-			//return rgb;
+		int newColor = 0xff000000 ^ (c.getRed() << 16) ^ (c.getGreen() << 8) ^ (c.getBlue());
+		return ~newColor | rgb;
 	}
 	
 	

@@ -48,7 +48,7 @@ public class GridPanel extends JPanel {
 		}
     }
     
-    public void paint(Graphics g) {
+    public synchronized void paint(Graphics g) {
 
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -216,11 +216,11 @@ public class GridPanel extends JPanel {
     }
 
     // Set vehicle
-    public void setVehicle(VehicleClient v){
+    public synchronized void setVehicle(VehicleClient v){
         this.vehicles.put(v, new Orientation(v.getCurrentOrientation()));
     }
     
-    public void setIntersection(IntersectionServer intersection){
+    public synchronized void setIntersection(IntersectionServer intersection){
         // TODO
         // Get x and y coordinates and assign in matrix
     	Integer x = intersection.getCoordinate().getX();

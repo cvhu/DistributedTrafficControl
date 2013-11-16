@@ -43,11 +43,11 @@ public class GridWorld {
         }
     }
     
-    public void setVehicle(VehicleClient vehicle) {
+    public synchronized void setVehicle(VehicleClient vehicle) {
         this.frame.setVehicle(vehicle);
     }
     
-    public void setIntersection(IntersectionServer intersection) {
+    public synchronized void setIntersection(IntersectionServer intersection) {
         this.frame.setIntersection(intersection);
     }
     

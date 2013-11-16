@@ -161,6 +161,7 @@ public class VehicleClient implements Runnable{
 
     // Move vehicle to next destination
     public void handleRequestOkay() {
+        System.out.println("request okay");
         
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0){

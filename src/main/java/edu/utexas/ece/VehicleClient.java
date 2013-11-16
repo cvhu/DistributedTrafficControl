@@ -49,8 +49,9 @@ public class VehicleClient implements Runnable{
                 randInt(0, height - 1));
 
         // Generate a random destination
-        Coordinate destination = new Coordinate(randInt(0, width - 1),
-                randInt(0, height - 1));
+//        Coordinate destination = new Coordinate(randInt(0, width - 1),
+//                randInt(0, height - 1));
+        Coordinate destination = new Coordinate(0, 0);
 
         // Generate a random orientation
         Integer randOrientation = randInt(0, 3);
@@ -216,6 +217,11 @@ public class VehicleClient implements Runnable{
         while (!destinationQueue.isEmpty()) {
 //            System.out.println(currentIntersection);
             IntersectionServer intersection = gridWorld.getServer(currentIntersection);
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             intersection.sendRequest(this);
         }
     }

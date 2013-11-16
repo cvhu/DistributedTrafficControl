@@ -229,14 +229,16 @@ public class GridPanel extends JPanel {
         }
         
     }
+    
+    public synchronized void removeVehicle(VehicleClient v){
+    	this.vehicles.remove(v);
+    }
 
-    // Set vehicle
     public synchronized void setVehicle(VehicleClient v){
         this.vehicles.put(v, new Orientation(v.getCurrentOrientation()));
     }
     
     public synchronized void setIntersection(IntersectionServer intersection){
-        // TODO
         // Get x and y coordinates and assign in matrix
     	Integer x = intersection.getCoordinate().getX();
     	Integer y = intersection.getCoordinate().getY();

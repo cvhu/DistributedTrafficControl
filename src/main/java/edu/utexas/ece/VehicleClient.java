@@ -49,8 +49,9 @@ public class VehicleClient implements Runnable{
     public void generateRoute(Integer height, Integer width) {
 
         // Generate random origin
-        this.currentIntersection = new Coordinate(randInt(0, width - 1),
-                randInt(0, height - 1));
+        //this.currentIntersection = new Coordinate(randInt(0, width - 1),
+               // randInt(0, height - 1));
+        this.currentIntersection = new Coordinate(width - 1, height - 1);
 
         // Generate a random destination
 //        Coordinate destination = new Coordinate(randInt(0, width - 1),
@@ -223,7 +224,7 @@ public class VehicleClient implements Runnable{
 
     @Override
     public void run() {
-        while (!finalDestination.equals(currentIntersection)) {
+        while ((currentDestination != null) && !finalDestination.equals(currentIntersection)) {
             if (!sent) {
                 //System.out.println(currentIntersection);
                 IntersectionServer intersection = gridWorld.getServer(currentIntersection);

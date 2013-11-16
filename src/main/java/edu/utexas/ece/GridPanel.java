@@ -27,6 +27,11 @@ public class GridPanel extends JPanel {
     private BufferedImage vertical_straight;
     private BufferedImage horizontal_left;
     private BufferedImage horizontal_straight;
+    
+    private	BufferedImage northward_arrow;
+    private	BufferedImage eastward_arrow;
+    private	BufferedImage southward_arrow;
+    private	BufferedImage westward_arrow;
 
     public GridPanel(Integer width, Integer height) {
         // Set width and height
@@ -36,12 +41,18 @@ public class GridPanel extends JPanel {
         this.vehicles = new HashMap<VehicleClient, Orientation>();
         this.intersections = new IntersectionServer[this.width][this.height];
         
-        // Open intersection light images
         try {
+        	// Open intersection light images
 			this.vertical_left = ImageIO.read(new File("VERTICAL_LEFT.png"));
 			this.vertical_straight = ImageIO.read(new File("VERTICAL_STRAIGHT.png"));
 			this.horizontal_left = ImageIO.read(new File("HORIZONTAL_LEFT.png"));
 			this.horizontal_straight = ImageIO.read(new File("HORIZONTAL_STRAIGHT.png"));
+			
+			// Open vehicle arrow images
+			this.northward_arrow = ImageIO.read(new File("NORTHWARD_ARROW.png"));
+			this.eastward_arrow = ImageIO.read(new File("EASTWARD_ARROW.png"));
+			this.southward_arrow = ImageIO.read(new File("SOUTHWARD_ARROW.png"));
+			this.westward_arrow = ImageIO.read(new File("WESTWARD_ARROW.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,8 +75,6 @@ public class GridPanel extends JPanel {
         Dimension size = getSize();
         double w = size.getWidth();
         double h = size.getHeight();
-
-        
 
         // Draw the roads
         int ytop;
@@ -183,6 +192,7 @@ public class GridPanel extends JPanel {
             		x += 2;
             		// Move vehicle into position
             		y += 16 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		g2d.drawImage(this.northward_arrow, (int)x, (int)y, null);
             		break;
             	// Going east
             	case 1:
@@ -190,15 +200,8 @@ public class GridPanel extends JPanel {
             		x -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
             		// Move to right lane
             		y += 2;
-            		// Draw westward arrow
-            		g2d.drawLine((int)(x+4), (int)(y+0), (int)(x+0), (int)(y+0));
-            		g2d.drawLine((int)(x+5), (int)(y+1), (int)(x+1), (int)(y+1));
-            		g2d.drawLine((int)(x+6), (int)(y+2), (int)(x+2), (int)(y+2));
-            		g2d.drawLine((int)(x+7), (int)(y+3), (int)(x+3), (int)(y+3));
-            		g2d.drawLine((int)(x+7), (int)(y+4), (int)(x+3), (int)(y+4));
-            		g2d.drawLine((int)(x+6), (int)(y+5), (int)(x+2), (int)(y+5));
-            		g2d.drawLine((int)(x+5), (int)(y+6), (int)(x+1), (int)(y+6));
-            		g2d.drawLine((int)(x+4), (int)(y+7), (int)(x+0), (int)(y+7));
+            		// Draw eastward arrow
+            		g2d.drawImage(this.eastward_arrow, (int)x, (int)y, null);
             		break;
             	// Going south
             	case 2:
@@ -206,6 +209,7 @@ public class GridPanel extends JPanel {
             		x -= 10;
             		// Move vehicle into position
             		y -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		g2d.drawImage(this.southward_arrow, (int)x, (int)y, null);
             		break;
             	// Going west
             	case 3:
@@ -214,14 +218,7 @@ public class GridPanel extends JPanel {
             		// Move to right lane
             		y -= 10;
             		// Draw westward arrow
-            		g2d.drawLine((int)(x+3), (int)(y+0), (int)(x+7), (int)(y+0));
-            		g2d.drawLine((int)(x+2), (int)(y+1), (int)(x+6), (int)(y+1));
-            		g2d.drawLine((int)(x+1), (int)(y+2), (int)(x+5), (int)(y+2));
-            		g2d.drawLine((int)(x+0), (int)(y+3), (int)(x+4), (int)(y+3));
-            		g2d.drawLine((int)(x+0), (int)(y+4), (int)(x+4), (int)(y+4));
-            		g2d.drawLine((int)(x+1), (int)(y+5), (int)(x+5), (int)(y+5));
-            		g2d.drawLine((int)(x+2), (int)(y+6), (int)(x+6), (int)(y+6));
-            		g2d.drawLine((int)(x+3), (int)(y+7), (int)(x+7), (int)(y+7));
+            		g2d.drawImage(this.westward_arrow, (int)x, (int)y, null);
             		break;
             }
             // Draw vehicle

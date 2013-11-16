@@ -1,5 +1,6 @@
 package edu.utexas.ece;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -7,7 +8,8 @@ import java.util.Random;
 
 public class VehicleClient implements Runnable{
 
-    private GridWorld gridWorld;
+	private Color				color;
+    private GridWorld 			gridWorld;
     private Boolean             destinationReached;     // Destination reached?
     private Direction           currentDirection;       // Current orientation
     private Coordinate          currentDestination;     // Current Destination
@@ -19,12 +21,18 @@ public class VehicleClient implements Runnable{
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
+    	Random rand = new Random();
+    	this.color = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
         destinationReached = false;
         this.gridWorld = gridWorld;
         this.destinationQueue = new LinkedList<Coordinate>();
     }
 
     // Getters
+	public Color getColor() {
+		return color;
+	}
+    
     public Direction getCurrentDirection(){
         return currentDirection;
     }
@@ -229,7 +237,7 @@ public class VehicleClient implements Runnable{
                 //System.out.println(currentIntersection);
                 IntersectionServer intersection = gridWorld.getServer(currentIntersection);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

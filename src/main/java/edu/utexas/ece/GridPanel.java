@@ -3,6 +3,7 @@ package edu.utexas.ece;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -161,6 +162,8 @@ public class GridPanel extends JPanel {
         
         // Draw each vehicle
         g2d.setColor(Color.blue);
+        BlueRandomSwapFilter filter = null;
+        Image filteredImage = null;
         int[][][] numVehicles = new int[this.width][this.height][4];
         for(VehicleClient v : this.vehicles.keySet()) {
            
@@ -192,7 +195,10 @@ public class GridPanel extends JPanel {
             		x += 2;
             		// Move vehicle into position
             		y += 16 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
-            		g2d.drawImage(this.northward_arrow, (int)x, (int)y, null);
+            		// Draw northward arrow
+            		filter = new BlueRandomSwapFilter(v.getColor());
+            		filteredImage = createImage(new FilteredImageSource(this.northward_arrow.getSource(), filter));
+            		g2d.drawImage(filteredImage, (int)x, (int)y, null);
             		break;
             	// Going east
             	case 1:
@@ -201,7 +207,9 @@ public class GridPanel extends JPanel {
             		// Move to right lane
             		y += 2;
             		// Draw eastward arrow
-            		g2d.drawImage(this.eastward_arrow, (int)x, (int)y, null);
+            		filter = new BlueRandomSwapFilter(v.getColor());
+            		filteredImage = createImage(new FilteredImageSource(this.eastward_arrow.getSource(), filter));
+            		g2d.drawImage(filteredImage, (int)x, (int)y, null);
             		break;
             	// Going south
             	case 2:
@@ -209,7 +217,10 @@ public class GridPanel extends JPanel {
             		x -= 10;
             		// Move vehicle into position
             		y -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
-            		g2d.drawImage(this.southward_arrow, (int)x, (int)y, null);
+            		// Draw southward arrow
+            		filter = new BlueRandomSwapFilter(v.getColor());
+            		filteredImage = createImage(new FilteredImageSource(this.southward_arrow.getSource(), filter));
+            		g2d.drawImage(filteredImage, (int)x, (int)y, null);
             		break;
             	// Going west
             	case 3:
@@ -218,7 +229,9 @@ public class GridPanel extends JPanel {
             		// Move to right lane
             		y -= 10;
             		// Draw westward arrow
-            		g2d.drawImage(this.westward_arrow, (int)x, (int)y, null);
+            		filter = new BlueRandomSwapFilter(v.getColor());
+            		filteredImage = createImage(new FilteredImageSource(this.westward_arrow.getSource(), filter));
+            		g2d.drawImage(filteredImage, (int)x, (int)y, null);
             		break;
             }
             // Draw vehicle

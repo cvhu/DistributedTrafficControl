@@ -26,7 +26,7 @@ public class GridWorld {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                IntersectionServer intersection = new IntersectionServer(coordinate);
+                IntersectionServer intersection = new IntersectionServer(coordinate, this);
                 this.intersectionsMap.put(coordinate, intersection);
                 new Thread(intersection).start();
                 
@@ -39,7 +39,7 @@ public class GridWorld {
             this.vehicles[i] = new VehicleClient(this);
             this.vehicles[i].generateRoute(height, width);
             System.out.println(this.vehicles[i]);
-            this.frame.setVehicle(this.vehicles[i]);
+            setVehicle(this.vehicles[i]);
         }
     }
     
@@ -47,11 +47,15 @@ public class GridWorld {
         this.frame.setVehicle(vehicle);
     }
     
+    public void setIntersection(IntersectionServer intersection) {
+        this.frame.setIntersection(intersection);
+    }
+    
     public IntersectionServer getServer(Coordinate coordinate) {
         return intersectionsMap.get(coordinate);
     }
 
     public static void main(String[] args) {
-        new GridWorld(8, 8, 16);
+        new GridWorld(2, 2, 16);
     }
 }

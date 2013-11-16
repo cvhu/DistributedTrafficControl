@@ -13,8 +13,10 @@ public class IntersectionServer implements Runnable{
     private HashMap<Direction, ArrayList<VehicleClient>> requestsMap;
     private HashMap<IntersectionState, Integer> durationsMap;
     private IntersectionState currentState;
+    private GridWorld gridWorld;
     
-    public IntersectionServer(Coordinate coordinate) {
+    public IntersectionServer(Coordinate coordinate, GridWorld gridWorld) {
+        this.gridWorld = gridWorld;
         this.coordinate = coordinate;
         requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
         durationsMap = new HashMap<IntersectionState, Integer>();
@@ -36,6 +38,7 @@ public class IntersectionServer implements Runnable{
     public void loopStates() {
         for (IntersectionState state : IntersectionState.values()) {
             currentState = state;
+            gridWorld.setIntersection(this);
             System.out.printf("Processing state: %s\n", currentState);
             long start = System.currentTimeMillis();
             long end = start + durationsMap.get(state);
@@ -116,7 +119,7 @@ public class IntersectionServer implements Runnable{
     }
     
     public static void main(String[] argv) {
-        new IntersectionServer(new Coordinate(2, 4));
+        new IntersectionServer(new Coordinate(2, 4), new GridWorld(2, 2, 4));
     }
 
     @Override

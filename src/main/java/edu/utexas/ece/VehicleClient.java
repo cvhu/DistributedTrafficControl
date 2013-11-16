@@ -200,12 +200,7 @@ public class VehicleClient implements Runnable{
     }
 
     public String toString(){
-    	String str = "";
-        str += this.currentIntersection.toString() + "\n";
-        str += this.currentDirection.name() + "\n";
-        str += this.currentDestination.toString() + "\n";
-        str += this.destinationQueue.toString() +"\n";
-        return str;
+        return String.format("%s\n%s\n%s\n%s\n", currentIntersection, currentDirection, currentDestination, destinationQueue);
     }
     
     public static void main(String[] args) {

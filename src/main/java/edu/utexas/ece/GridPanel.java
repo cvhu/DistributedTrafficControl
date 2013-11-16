@@ -65,14 +65,18 @@ public class GridPanel extends JPanel {
         double w = size.getWidth();
         double h = size.getHeight();
 
-        // Use 1 pixel stroke
-        g2d.setStroke(new BasicStroke(1));
+        
 
         // Draw the roads
         int ytop;
         int ybottom;
         int xleft;
         int xright;
+        
+        final float dash1[] = {10.0f};
+        final  BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
+                                                    BasicStroke.JOIN_MITER,
+                                                    10.0f, dash1, 0.0f);
 
         // Draw roads going north and south
         g2d.setColor(Color.black);
@@ -81,8 +85,15 @@ public class GridPanel extends JPanel {
         for (int i = 0; i < this.width; i++) {
             xleft = (int) ((w / (this.width + 1)) * (i + 1) - 12);
             xright = (int) ((w / (this.width + 1)) * (i + 1) + 12);
+            
+            // Use 1 pixel stroke
+            g2d.setStroke(new BasicStroke(1));
             g2d.drawLine(xleft, ytop, xleft, ybottom);
             g2d.drawLine(xright, ytop, xright, ybottom);
+            
+            // Draw dashed lane separator
+            g2d.setStroke(dashed);
+            g2d.drawLine((xleft+xright)/2, ytop, (xleft+xright)/2, ybottom);
         }
 
         // Draw roads going east and west
@@ -91,9 +102,18 @@ public class GridPanel extends JPanel {
         for (int i = 0; i < this.height; i++) {
             ytop = (int) ((h / (this.height + 1)) * (i + 1) - 12);
             ybottom = (int) ((h / (this.height + 1)) * (i + 1) + 12);
+            
+            // Use 1 pixel stroke
+            g2d.setStroke(new BasicStroke(1));
             g2d.drawLine(xleft, ytop, xright, ytop);
             g2d.drawLine(xleft, ybottom, xright, ybottom);
+            
+            // Draw dashed lane separator
+            g2d.setStroke(dashed);
+            g2d.drawLine(xleft, (ytop+ybottom)/2, xright, (ytop+ybottom)/2);
         }
+        // Revert stroke
+        g2d.setStroke(new BasicStroke(1));
         
         
         // Draw each intersection
@@ -121,8 +141,6 @@ public class GridPanel extends JPanel {
         g2d.setColor(Color.blue);
         int[][][] numVehicles = new int[this.width][this.height][4];
         for(VehicleClient v : this.vehicles.keySet()) {
-        	
-        	System.out.println(v);
            
             // Get x, y coordinates and direction
             Integer xCoordinate = v.getCurrentIntersection().getX();
@@ -151,28 +169,28 @@ public class GridPanel extends JPanel {
             		// Move to right lane
             		x += 2;
             		// Move vehicle into position
-            		y -= 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		y += 16 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
             		break;
             	// Going east
             	case 1:
             		// Move vehicle into position
-            		x -= 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
+            		x -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
             		// Move to right lane
-            		y -= 2;
+            		y += 2;
             		break;
             	// Going south
             	case 2:
             		// Move to right lane
-            		x -= 2;
+            		x -= 10;
             		// Move vehicle into position
-            		y += 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		y -= 22 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
             		break;
             	// Going west
             	case 3:
             		// Move vehicle into position
-            		x += 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
+            		x += 16 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
             		// Move to right lane
-            		y += 2;
+            		y -= 10;
             		break;
             }
             // Draw vehicle
@@ -192,6 +210,7 @@ public class GridPanel extends JPanel {
     public void setServer(IntersectionServer s){
         // TODO
         // Get x and y coordinates and assign in matrix
+    	
     }
     
     public static void main(String[] args) {

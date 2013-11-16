@@ -29,6 +29,11 @@ public class GridFrame extends JFrame {
         this.setResizable(false);
     }
     
+    public void setIntersection(IntersectionServer intersection){
+    	
+    	this.repaint();
+    }
+    
     public void setVehicle(VehicleClient v){
     	this.gridPanel.setVehicle(v);
     	this.repaint();

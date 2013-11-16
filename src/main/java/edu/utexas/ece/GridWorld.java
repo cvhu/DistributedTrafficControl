@@ -29,17 +29,22 @@ public class GridWorld {
                 IntersectionServer intersection = new IntersectionServer(coordinate);
                 this.intersectionsMap.put(coordinate, intersection);
                 new Thread(intersection).start();
+                
             }
         }
 
         // Initialize vehicle clients
         this.vehicles = new VehicleClient[nVehicles];
         for (int i = 0; i < nVehicles; i++) {
-            this.vehicles[i] = new VehicleClient(height, width);
-            this.vehicles[i].generateRoute();
+            this.vehicles[i] = new VehicleClient(this);
+            this.vehicles[i].generateRoute(height, width);
             System.out.println(this.vehicles[i]);
             this.frame.setVehicle(this.vehicles[i]);
         }
+    }
+    
+    public void setVehicle(VehicleClient vehicle) {
+        this.frame.setVehicle(vehicle);
     }
     
     public IntersectionServer getServer(Coordinate coordinate) {

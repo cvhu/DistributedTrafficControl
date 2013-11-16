@@ -4,12 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class VehicleClient {
+public class VehicleClient implements Runnable{
 
-    // Knowledge of grid
-    private Integer height;
-    private Integer width;
-
+    private GridWorld gridWorld;
     private Boolean             destinationReached;     // Destination reached?
     private Direction           currentDirection;       // Current orientation
     private Coordinate          currentDestination;     // Current Destination
@@ -17,9 +14,8 @@ public class VehicleClient {
     private Queue<Coordinate>   destinationQueue;       // Queue of destinations
 
     // Constructor
-    public VehicleClient(Integer height, Integer width) {
-        this.height = height;
-        this.width = width;
+    public VehicleClient(GridWorld gridWorld){
+        this.gridWorld = gridWorld;
         this.destinationQueue = new LinkedList<Coordinate>();
     }
 
@@ -45,15 +41,15 @@ public class VehicleClient {
     }
 
     // Initialize
-    public void generateRoute() {
+    public void generateRoute(Integer height, Integer width) {
 
         // Generate random origin
-        this.currentIntersection = new Coordinate(randInt(0, this.width - 1),
-                randInt(0, this.height - 1));
+        this.currentIntersection = new Coordinate(randInt(0, width - 1),
+                randInt(0, height - 1));
 
         // Generate a random destination
-        Coordinate destination = new Coordinate(randInt(0, this.width - 1),
-                randInt(0, this.height - 1));
+        Coordinate destination = new Coordinate(randInt(0, width - 1),
+                randInt(0, height - 1));
 
         // Generate a random orientation
         Integer randOrientation = randInt(0, 3);
@@ -192,6 +188,8 @@ public class VehicleClient {
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0)
             this.destinationReached = true;
+        
+        gridWorld.setVehicle(this);
     }
 
     // Random number generator
@@ -211,17 +209,17 @@ public class VehicleClient {
     }
     
     public static void main(String[] args) {
-        VehicleClient vehicle = new VehicleClient(4, 4);
-        vehicle.generateRoute();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
-        vehicle.handleRequestOkay();
+        VehicleClient vehicle = new VehicleClient(new GridWorld(2, 2, 10));
+        vehicle.generateRoute(2, 2);
+        new Thread(vehicle).start();
+    }
+
+    @Override
+    public void run() {
+        while (!destinationReached) {
+            IntersectionServer intersection = gridWorld.getServer(currentIntersection);
+            intersection.sendRequest(this);
+        }
     }
 
 }

@@ -87,6 +87,14 @@ public class IntersectionServer implements Runnable{
         
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
+            if (vehicle.getCurrentDestination() == null) {
+                System.out.println("Before pop" + Arrays.asList(requests));
+                vehicle.handleRequestOkay();
+                requests.remove(0);
+                System.out.println("After pop" + Arrays.asList(requests));
+                requestsMap.put(direction, requests);
+                return;
+            }
             VehicleAction action = vehicle.getAction();
             System.out.println("popping queue: " + vehicle.toString());
 //            vehicle.handleRequestOkay();

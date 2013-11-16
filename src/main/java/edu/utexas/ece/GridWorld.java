@@ -26,7 +26,9 @@ public class GridWorld {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                this.intersectionsMap.put(coordinate, new IntersectionServer(coordinate));
+                IntersectionServer intersection = new IntersectionServer(coordinate);
+                this.intersectionsMap.put(coordinate, intersection);
+                new Thread(intersection).start();
             }
         }
 

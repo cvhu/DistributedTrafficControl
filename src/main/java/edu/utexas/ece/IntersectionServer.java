@@ -3,7 +3,7 @@ package edu.utexas.ece;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class IntersectionServer {
+public class IntersectionServer implements Runnable{
     
     // The duration of the corresponding states in milliseconds.
     public static final int DURATION_STRAIGHT = 4000;
@@ -19,7 +19,6 @@ public class IntersectionServer {
         requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
         durationsMap = new HashMap<IntersectionState, Integer>();
         init();
-        //poll();
     }
     
     public void poll() {
@@ -114,5 +113,10 @@ public class IntersectionServer {
     
     public static void main(String[] argv) {
         new IntersectionServer(new Coordinate(2, 4));
+    }
+
+    @Override
+    public void run() {
+        poll();
     }
 }

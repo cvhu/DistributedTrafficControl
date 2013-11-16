@@ -34,6 +34,11 @@ public class GridFrame extends JFrame {
     	this.repaint();
     }
     
+    public void removeVehicle(VehicleClient v){
+    	this.gridPanel.removeVehicle(v);
+    	this.repaint();
+    }
+    
     public void setVehicle(VehicleClient v){
     	this.gridPanel.setVehicle(v);
     	this.repaint();

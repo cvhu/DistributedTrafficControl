@@ -44,6 +44,10 @@ public class GridWorld {
         }
     }
     
+    public synchronized void removeVehicle(VehicleClient vehicle){
+    	this.frame.removeVehicle(vehicle);
+    }
+    
     public synchronized void setVehicle(VehicleClient vehicle) {
         this.frame.setVehicle(vehicle);
     }

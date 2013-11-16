@@ -62,15 +62,19 @@ public class IntersectionServer implements Runnable{
             case VERTICAL_STRAIGHT:
                 popRequests(Direction.NORTH, true);
                 popRequests(Direction.SOUTH, true);
+                break;
             case VERTICAL_LEFT:
                 popRequests(Direction.NORTH, false);
                 popRequests(Direction.SOUTH, false);
+                break;
             case HORIZONTAL_STRAIGHT:
                 popRequests(Direction.EAST, true);
                 popRequests(Direction.WEST, true);
+                break;
             case HORIZONTAL_LEFT:
                 popRequests(Direction.EAST, false);
                 popRequests(Direction.WEST, false);
+                break;
             default:
                 //System.out.println("Invalid server state");
         }
@@ -113,7 +117,7 @@ public class IntersectionServer implements Runnable{
             } else {
                 System.out.println("Invalid request");
             }
-        } else {
+        } else {    
 //            System.out.println("empty queue");
         }
     }
@@ -127,9 +131,11 @@ public class IntersectionServer implements Runnable{
                 case HORIZONTAL_LEFT:
                 case VERTICAL_LEFT:
                     durationsMap.put(state, DURATION_LEFT);
+                    break;
                 case HORIZONTAL_STRAIGHT:
                 case VERTICAL_STRAIGHT:
                     durationsMap.put(state, DURATION_STRAIGHT);
+                    break;
                 default:
             }
         }

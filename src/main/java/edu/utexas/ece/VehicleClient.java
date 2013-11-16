@@ -13,6 +13,7 @@ public class VehicleClient implements Runnable{
     private Coordinate          currentDestination;     // Current Destination
     private Coordinate          currentIntersection;    // Current Intersection
     private Queue<Coordinate>   destinationQueue;       // Queue of destinations
+    private VehicleAction pendingAction;
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
@@ -165,7 +166,8 @@ public class VehicleClient implements Runnable{
     }
     
     public synchronized VehicleAction getAction() {
-        return currentIntersection.getAction(currentDestination, currentDirection);
+        pendingAction = currentIntersection.getAction(currentDestination, currentDirection);
+        return pendingAction;
     }
 
     // Move vehicle to next destination

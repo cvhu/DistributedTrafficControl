@@ -57,7 +57,7 @@ public class IntersectionServer implements Runnable{
         return coordinate;
     }
     
-    public void processQueue() {
+    public synchronized void processQueue() {
         switch (currentState) {
             case VERTICAL_STRAIGHT:
                 popRequests(Direction.NORTH, true);
@@ -136,17 +136,18 @@ public class IntersectionServer implements Runnable{
     }
     
     public synchronized void sendRequest(final VehicleClient client) {
-        new Thread(new Runnable() {
-            
-            @Override
-            public void run() {
-                Direction direction = client.getCurrentDirection();
-                ArrayList<VehicleClient> requests = requestsMap.get(direction);
-                requests.add(client);
-                requestsMap.put(direction, requests);
-                printRequests();
-            }
-        }).start();
+        Direction direction = client.getCurrentDirection();
+        ArrayList<VehicleClient> requests = requestsMap.get(direction);
+        requests.add(client);
+        requestsMap.put(direction, requests);
+        printRequests();
+//        new Thread(new Runnable() {
+//            
+//            @Override
+//            public void run() {
+//                
+//            }
+//        }).start();
     }
     
     public static void main(String[] argv) {

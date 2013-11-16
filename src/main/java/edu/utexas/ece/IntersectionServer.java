@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class IntersectionServer implements Runnable{
     
     // The duration of the corresponding states in milliseconds.
-    public static final int DURATION_STRAIGHT = 1000;
-    public static final int DURATION_LEFT = 500;
+    public static final int DURATION_STRAIGHT = 2000;
+    public static final int DURATION_LEFT = 1500;
     
     private Coordinate coordinate;
     private HashMap<Direction, ArrayList<VehicleClient>> requestsMap;

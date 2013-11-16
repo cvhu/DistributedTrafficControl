@@ -14,6 +14,7 @@ public class VehicleClient implements Runnable{
     private Coordinate          currentIntersection;    // Current Intersection
     private Queue<Coordinate>   destinationQueue;       // Queue of destinations
     private VehicleAction pendingAction;
+    private boolean sent = false;
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
@@ -196,6 +197,7 @@ public class VehicleClient implements Runnable{
         this.currentDestination = this.destinationQueue.peek();
         
         gridWorld.setVehicle(this);
+        sent = false;
     }
 
     // Random number generator
@@ -219,14 +221,17 @@ public class VehicleClient implements Runnable{
     @Override
     public void run() {
         while (getCurrentDestination() != null) {
-            //System.out.println(currentIntersection);
-            IntersectionServer intersection = gridWorld.getServer(currentIntersection);
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!sent) {
+                //System.out.println(currentIntersection);
+                IntersectionServer intersection = gridWorld.getServer(currentIntersection);
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                intersection.sendRequest(this);
+                sent = true;
             }
-            intersection.sendRequest(this);
         }
         gridWorld.removeVehicle(this);
     }

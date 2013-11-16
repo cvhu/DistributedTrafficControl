@@ -12,6 +12,7 @@ public class VehicleClient implements Runnable{
     private Direction           currentDirection;       // Current orientation
     private Coordinate          currentDestination;     // Current Destination
     private Coordinate          currentIntersection;    // Current Intersection
+    private Coordinate finalDestination;
     private Queue<Coordinate>   destinationQueue;       // Queue of destinations
     private VehicleAction pendingAction;
     private boolean sent = false;
@@ -54,7 +55,9 @@ public class VehicleClient implements Runnable{
         // Generate a random destination
 //        Coordinate destination = new Coordinate(randInt(0, width - 1),
 //                randInt(0, height - 1));
-        Coordinate destination = new Coordinate(0, 0);
+        finalDestination = new Coordinate(0, 0);
+        
+        Coordinate destination = finalDestination;
 
         // Generate a random orientation
         Integer randOrientation = randInt(0, 3);
@@ -220,7 +223,7 @@ public class VehicleClient implements Runnable{
 
     @Override
     public void run() {
-        while (getCurrentDestination() != null) {
+        while (!finalDestination.equals(currentIntersection)) {
             if (!sent) {
                 //System.out.println(currentIntersection);
                 IntersectionServer intersection = gridWorld.getServer(currentIntersection);
@@ -233,6 +236,8 @@ public class VehicleClient implements Runnable{
                 sent = true;
             }
         }
+        
+        // reached destination.
         gridWorld.removeVehicle(this);
     }
 

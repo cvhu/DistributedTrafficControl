@@ -54,6 +54,10 @@ public class Coordinate {
         return valid; 
     }
     
+    public boolean equals(Coordinate coordinate) {
+        return (x == coordinate.getX()) && (y == coordinate.getY());
+    }
+    
     public boolean isHorizontal(Coordinate coordinate) {
         boolean valid = false;
         try {

@@ -40,7 +40,7 @@ public class IntersectionServer implements Runnable{
         for (IntersectionState state : IntersectionState.values()) {
             currentState = state;
             gridWorld.setIntersection(this);
-            System.out.printf("Processing state: %s\n", currentState);
+            //System.out.printf("Processing state: %s\n", currentState);
             long start = System.currentTimeMillis();
             long end = start + durationsMap.get(state);
             while (System.currentTimeMillis() < end) {

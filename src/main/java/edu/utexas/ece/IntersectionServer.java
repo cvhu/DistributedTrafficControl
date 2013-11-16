@@ -87,15 +87,16 @@ public class IntersectionServer implements Runnable{
         
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
+            VehicleAction action = vehicle.getAction();
             System.out.println("popping queue: " + vehicle.toString());
 //            vehicle.handleRequestOkay();
             boolean valid;
             if (straight) {
-                valid = coordinate.isStraight(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
+                valid = (action == VehicleAction.GO_STRAIGHT) || (action == VehicleAction.TURN_RIGHT);
             } else {
-                valid = coordinate.isLeft(vehicle.getCurrentDestination(), vehicle.getCurrentDirection());
+                valid = (action == VehicleAction.TURN_LEFT);
             }
-            if (true) {
+            if (valid) {
                 System.out.println("Before pop" + Arrays.asList(requests));
                 vehicle.handleRequestOkay();
                 requests.remove(0);

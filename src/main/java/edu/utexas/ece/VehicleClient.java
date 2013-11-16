@@ -163,6 +163,10 @@ public class VehicleClient implements Runnable{
         
         System.out.printf("Destinations: %s\n", Arrays.asList(destinationQueue).toString());
     }
+    
+    public synchronized VehicleAction getAction() {
+        return currentIntersection.getAction(currentDestination, currentDirection);
+    }
 
     // Move vehicle to next destination
     public synchronized void handleRequestOkay() {
@@ -188,12 +192,6 @@ public class VehicleClient implements Runnable{
         // Move to next destination
         this.currentIntersection = this.destinationQueue.remove();
         this.currentDestination = this.destinationQueue.peek();
-
-//        System.out.println(this.currentIntersection + " " + this.currentDirection.name());
-
-        // If we have no future destination, then we've made it
-        if (this.destinationQueue.size() == 0)
-            this.destinationReached = true;
         
         gridWorld.setVehicle(this);
     }

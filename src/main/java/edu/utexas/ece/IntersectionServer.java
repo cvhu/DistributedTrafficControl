@@ -49,6 +49,10 @@ public class IntersectionServer implements Runnable{
         return currentState;
     }
     
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+    
     public void processQueue() {
         switch (currentState) {
             case VERTICAL_STRAIGHT:

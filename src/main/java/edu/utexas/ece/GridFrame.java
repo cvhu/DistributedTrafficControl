@@ -34,6 +34,10 @@ public class GridFrame extends JFrame {
     	this.repaint();
     }
     
+    public void setIntersection(IntersectionServer intersection){
+        
+        this.repaint();
+    }
 
     public static void main(String[] args) {
     	GridFrame frame = new GridFrame(8,8);

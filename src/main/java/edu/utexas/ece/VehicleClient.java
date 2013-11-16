@@ -39,6 +39,10 @@ public class VehicleClient {
     public Coordinate getCurrentDestination() {
         return this.currentDestination;
     }
+    
+    public Orientation getCurrentOrientation(){
+    	return new Orientation(this.currentDirection, this.currentIntersection);
+    }
 
     // Initialize
     public void generateRoute() {
@@ -157,12 +161,6 @@ public class VehicleClient {
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0)
             this.destinationReached = true;
-        
-        System.out.println(this.currentIntersection);
-        System.out.println(this.currentDestination);
-        System.out.println(this.destinationQueue);
-        System.out.println(destination + "\n");
-
     }
 
     // Move vehicle to next destination
@@ -203,6 +201,15 @@ public class VehicleClient {
         return randomNum;
     }
 
+    public String toString(){
+    	String str = "";
+        str += this.currentIntersection.toString() + "\n";
+        str += this.currentDirection.name() + "\n";
+        str += this.currentDestination.toString() + "\n";
+        str += this.destinationQueue.toString() +"\n";
+        return str;
+    }
+    
     public static void main(String[] args) {
         VehicleClient vehicle = new VehicleClient(4, 4);
         vehicle.generateRoute();

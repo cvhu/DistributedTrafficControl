@@ -118,9 +118,11 @@ public class GridPanel extends JPanel {
         
         
         // Draw each vehicle
-        g2d.setColor(Color.red);
+        g2d.setColor(Color.blue);
         int[][][] numVehicles = new int[this.width][this.height][4];
         for(VehicleClient v : this.vehicles.keySet()) {
+        	
+        	System.out.println(v);
            
             // Get x, y coordinates and direction
             Integer xCoordinate = v.getCurrentIntersection().getX();
@@ -143,6 +145,39 @@ public class GridPanel extends JPanel {
             double x = (w / (this.width + 1)) * (xCoordinate + 1);
             double y = (h / (this.height + 1)) * (this.height - yCoordinate);
             
+            switch(directionInt){
+            	// Going north
+            	case 0:
+            		// Move to right lane
+            		x += 2;
+            		// Move vehicle into position
+            		y -= 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		break;
+            	// Going east
+            	case 1:
+            		// Move vehicle into position
+            		x -= 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
+            		// Move to right lane
+            		y -= 2;
+            		break;
+            	// Going south
+            	case 2:
+            		// Move to right lane
+            		x -= 2;
+            		// Move vehicle into position
+            		y += 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;
+            		break;
+            	// Going west
+            	case 3:
+            		// Move vehicle into position
+            		x += 20 + numVehicles[xCoordinate][yCoordinate][directionInt]*10;;
+            		// Move to right lane
+            		y += 2;
+            		break;
+            }
+            // Draw vehicle
+            g2d.fillOval((int)x, (int)y, 8, 8);
+            
             // Add vehicle to total number
             numVehicles[xCoordinate][yCoordinate][directionInt]++;
         }
@@ -151,7 +186,7 @@ public class GridPanel extends JPanel {
 
     // Set vehicle
     public void setVehicle(VehicleClient v){
-        this.vehicles.put(v, new Orientation(v.getCurrentDirection(), v.getCurrentIntersection()));
+        this.vehicles.put(v, new Orientation(v.getCurrentOrientation()));
     }
     
     public void setServer(IntersectionServer s){

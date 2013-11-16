@@ -19,6 +19,10 @@ public class IntersectionServer {
         requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
         durationsMap = new HashMap<IntersectionState, Integer>();
         init();
+        //poll();
+    }
+    
+    public void poll() {
         new Thread(new Runnable() {
             
             @Override

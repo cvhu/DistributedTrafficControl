@@ -29,6 +29,11 @@ public class GridFrame extends JFrame {
         this.setResizable(false);
     }
     
+    public void setVehicle(VehicleClient v){
+    	this.gridPanel.setVehicle(v);
+    	this.repaint();
+    }
+    
 
     public static void main(String[] args) {
     	GridFrame frame = new GridFrame(8,8);

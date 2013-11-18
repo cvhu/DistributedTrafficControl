@@ -176,6 +176,71 @@ public class VehicleClient implements Runnable{
         System.out.printf("Destinations: %s\n", Arrays.asList(destinationQueue).toString());
     }
     
+    public void generateDestination(Integer height, Integer width){
+
+        // Generate random origin
+        this.currentIntersection = new Coordinate(randInt(0, width - 1), randInt(0, height - 1));
+//        this.currentIntersection = new Coordinate(width - 1, height - 1);
+
+        // Generate a random destination
+        finalDestination = new Coordinate(randInt(0, width - 1), randInt(0, height - 1));
+//        finalDestination = new Coordinate(0, 0);
+        
+        Coordinate destination = finalDestination;
+
+        // Generate a random orientation
+        Integer randOrientation = randInt(0, 3);
+        switch (randOrientation) {
+        // Face north
+        case 0:
+            // If we actually have to go south, then take a turn-around
+            if ((currentIntersection.getY() > destination.getY())
+                    && (currentIntersection.getX() == destination.getX())) {
+                currentIntersection.setY(currentIntersection.getY() - 1);
+                currentDirection = Direction.SOUTH;
+            } else
+                currentDirection = Direction.NORTH;
+            break;
+        // Face east
+        case 1:
+            // If we actually have to go west, then take a turn-around
+            if ((currentIntersection.getX() > destination.getX())
+                    && (currentIntersection.getY() == destination.getY())) {
+                currentIntersection.setX(currentIntersection.getX() - 1);
+                currentDirection = Direction.WEST;
+            } else
+                currentDirection = Direction.EAST;
+            break;
+        // Face west
+        case 2:
+            // If we actually have to go east, then take a turn-around
+            if ((currentIntersection.getX() < destination.getX())
+                    && (currentIntersection.getY() == destination.getY())) {
+                currentIntersection.setX(currentIntersection.getX() + 1);
+                currentDirection = Direction.EAST;
+            } else
+                currentDirection = Direction.WEST;
+            break;
+        // Face south
+        case 3:
+            // If we actually have to go north, then take a turn-around
+            if ((currentIntersection.getY() < destination.getY())
+                    && (currentIntersection.getX() == destination.getX())) {
+                currentIntersection.setY(currentIntersection.getY() + 1);
+                currentDirection = Direction.NORTH;
+            } else
+                currentDirection = Direction.SOUTH;
+            break;
+        // Should not happen
+        default:
+            System.err.println("ERROR: Invalid Orientation\n");
+            System.exit(1);
+        }
+
+        // Assign next destination
+        this.currentDestination = new Coordinate(finalDestination.getX(), finalDestination.getY());
+    }
+    
     public synchronized VehicleAction getAction() {
         pendingAction = currentIntersection.getAction(currentDestination, currentDirection);
         return pendingAction;
@@ -214,6 +279,30 @@ public class VehicleClient implements Runnable{
         }
     }
 
+    // Move vehicle based on action
+    public synchronized void handleRequestOkayWithAction(Coordinate c){
+    	// Figure out our current direction
+    	if(c.getX() > this.currentIntersection.getX())
+    		this.currentDirection = Direction.EAST;
+    	else if(c.getX() < this.currentIntersection.getX())
+    		this.currentDirection = Direction.WEST;
+    	else if(c.getY() > this.currentIntersection.getY())
+    		this.currentDirection = Direction.NORTH;
+    	else if(c.getY() < this.currentIntersection.getY())
+    		this.currentDirection = Direction.SOUTH;
+    	this.currentIntersection  = new Coordinate(c.getX(), c.getY());
+    	
+    	// Display changes to vehicle
+    	gridWorld.setVehicle(this);
+        sent = false;
+    	
+    	// Check if we reached our destination
+    	if(this.currentIntersection.equals(this.currentDestination)){
+    		this.destinationReached = true;
+    		gridWorld.removeVehicle(this);
+    	}
+    }
+    
     // Random number generator
     private Integer randInt(Integer min, Integer max) {
         Random rand = new Random();

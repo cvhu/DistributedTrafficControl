@@ -49,6 +49,6 @@ public class IntersectionServerLA extends IntersectionServer{
                 }
             }
         }
-        vehicle.handleRequestOkayWithAction(actions.get(0));
+        vehicle.handleRequestOkay(actions.get(0));
     }
 }

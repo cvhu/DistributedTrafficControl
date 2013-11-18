@@ -1,5 +1,6 @@
 package edu.utexas.ece;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Coordinate {
@@ -114,19 +115,20 @@ public class Coordinate {
     }
     
     public Direction getDirectionTo(Coordinate coordinate) {
-        if ((coordinate.getY() == y + 1) && (coordinate.getX() == x)) {
-            return Direction.NORTH;
+        ArrayList<Direction> candidates = new ArrayList<Direction>();
+        if (coordinate.getY() > y) {
+            candidates.add(Direction.NORTH);
         }
-        if ((coordinate.getY() == y -1) && (coordinate.getX() == x)) {
-            return Direction.SOUTH;
+        if (coordinate.getY() < y) {
+            candidates.add(Direction.SOUTH);
         }
-        if ((coordinate.getY() == y) && (coordinate.getX() == x + 1)) {
-            return Direction.EAST;
+        if (coordinate.getX() > x) {
+            candidates.add(Direction.EAST);
         }
-        if ((coordinate.getY() == y) && (coordinate.getX() == x - 1)) {
-            return Direction.WEST;
+        if (coordinate.getX() < x) {
+            candidates.add(Direction.WEST);
         }
-        return null;
+        return candidates.get(rand.nextInt(candidates.size()));
     }
     
     public Coordinate moveOneStepTowards(Coordinate coordinate) {

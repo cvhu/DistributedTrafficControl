@@ -91,7 +91,7 @@ public class IntersectionServer implements Runnable{
     }
     
     public synchronized void processVehicle(VehicleClient vehicle) {
-        vehicle.handleRequestOkay();
+        vehicle.handleRequestOkay(vehicle.getCurrentDestination());
     }
     
     public synchronized void popRequests(Direction direction, boolean straight) {

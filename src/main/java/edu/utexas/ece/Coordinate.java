@@ -1,13 +1,17 @@
 package edu.utexas.ece;
 
+import java.util.Random;
+
 public class Coordinate {
 
     private Integer x;
     private Integer y;
+    private Random rand;
 
     public Coordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
+        this.rand = new Random();
     }
 
     public Integer getX() {
@@ -123,5 +127,30 @@ public class Coordinate {
             return Direction.WEST;
         }
         return null;
+    }
+    
+    public Coordinate moveOneStepTowards(Coordinate coordinate) {
+        Integer newX = x;
+        Integer newY = y;
+         
+        if (coordinate.getX() > x){
+            newX++;
+        } else if (coordinate.getX() < x) {
+            newX--;
+        }
+        if (coordinate.getY() > y){
+            newY++;
+        } else if (coordinate.getY() < y) {
+            newY--;
+        }
+        
+        if ((newY != y) && (newX != x)) {
+            if (rand.nextBoolean()) {
+                newY = y;
+            } else {
+                newX = x;
+            }
+        }
+        return new Coordinate(newX, newY);
     }
 }

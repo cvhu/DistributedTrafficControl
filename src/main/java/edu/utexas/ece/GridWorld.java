@@ -62,7 +62,7 @@ public class GridWorld {
                 }
                 
                 intersectionsMap.put(coordinate.toString(), intersection);
-                new Thread(intersection).start();
+//                new Thread(intersection).start();
             }
         }
 
@@ -74,11 +74,11 @@ public class GridWorld {
             if (mode.equals(GridWorldMode.LA)) {
                 
             } else {
-                vehicle.generateRoute();
+                vehicle.generatePath();
             }
-            System.out.println(this.vehicles[i]);
-            setVehicle(this.vehicles[i]);
-            new Thread(vehicle).start();
+//            System.out.println(this.vehicles[i]);
+//            setVehicle(this.vehicles[i]);
+//            new Thread(vehicle).start();
         }
     }
     
@@ -118,6 +118,6 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        new GridWorld(2, 2, 50, GridWorldMode.LA);
+        new GridWorld(3, 3, 50, GridWorldMode.DUMMY);
     }
 }

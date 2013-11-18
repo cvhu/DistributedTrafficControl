@@ -84,6 +84,15 @@ public class VehicleClient implements Runnable{
         }
         this.finalDestination = pos;
     }
+    
+    public void generatePath() {
+        Coordinate currentPos = startPosition;
+        while (!currentPos.equals(finalDestination)) {
+            currentPos = currentPos.moveOneStepTowards(finalDestination);
+            destinationQueue.add(currentPos);
+        }
+        System.out.printf("Generated Path: %s\n Start: %s\n End: %s\n", Arrays.asList(destinationQueue).toString(), startPosition, finalDestination);
+    }
 
     public void generateRoute() {
         
@@ -279,8 +288,7 @@ public class VehicleClient implements Runnable{
     }
 
     public String toString(){
-        //return String.format("%s\n%s\n%s\n%s\n", currentIntersection, currentDirection, currentDestination, destinationQueue);
-        return currentIntersection.toString();
+        return String.format("%s\n%s\n%s\n%s\n", currentIntersection, currentDirection, currentDestination, destinationQueue);
     }
     
     public static void main(String[] args) {

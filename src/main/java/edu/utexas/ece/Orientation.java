@@ -18,10 +18,4 @@ public class Orientation {
     public Coordinate getCoordinate(){
         return this.coordinate;
     }
-
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

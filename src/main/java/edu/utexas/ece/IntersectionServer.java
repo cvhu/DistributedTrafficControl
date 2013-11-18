@@ -10,11 +10,11 @@ public class IntersectionServer implements Runnable{
     public static final int DURATION_STRAIGHT = 2000;
     public static final int DURATION_LEFT = 1500;
     
-    private Coordinate coordinate;
-    private HashMap<Direction, ArrayList<VehicleClient>> requestsMap;
-    private HashMap<IntersectionState, Integer> durationsMap;
-    private IntersectionState currentState;
-    private GridWorld gridWorld;
+    protected Coordinate coordinate;
+    protected HashMap<Direction, ArrayList<VehicleClient>> requestsMap;
+    protected HashMap<IntersectionState, Integer> durationsMap;
+    protected IntersectionState currentState;
+    protected GridWorld gridWorld;
     
     public IntersectionServer(Coordinate coordinate, GridWorld gridWorld) {
         this.gridWorld = gridWorld;
@@ -149,17 +149,10 @@ public class IntersectionServer implements Runnable{
         requests.add(client);
         requestsMap.put(direction, requests);
         printRequests();
-//        new Thread(new Runnable() {
-//            
-//            @Override
-//            public void run() {
-//                
-//            }
-//        }).start();
     }
     
     public static void main(String[] argv) {
-        new IntersectionServer(new Coordinate(2, 4), new GridWorld(2, 2, 4));
+        new IntersectionServer(new Coordinate(2, 4), new GridWorld(2, 2, 4, GridWorldMode.DUMMY));
     }
 
     @Override

@@ -11,11 +11,14 @@ public class GridWorld {
     // Components of grid
     private HashMap<String, IntersectionServer> intersectionsMap;
     private VehicleClient[] vehicles;
+    
+    private GridWorldMode mode;
 
-    public GridWorld(Integer height, Integer width, Integer nVehicles) {
+    public GridWorld(Integer height, Integer width, Integer nVehicles, GridWorldMode mode) {
         // Set height and width of grid world
         this.height = height;
         this.width = width;
+        this.mode = mode;
         
         // Create frame
         frame = new GridFrame(this.width, this.height);
@@ -61,6 +64,6 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        new GridWorld(4, 4, 250);
+        new GridWorld(4, 4, 250, GridWorldMode.DUMMY);
     }
 }

@@ -227,7 +227,7 @@ public class VehicleClient implements Runnable{
     }
     
     public static void main(String[] args) {
-        VehicleClient vehicle = new VehicleClient(new GridWorld(2, 2, 10));
+        VehicleClient vehicle = new VehicleClient(new GridWorld(2, 2, 10, GridWorldMode.DUMMY));
         vehicle.generateRoute(2, 2);
         new Thread(vehicle).start();
     }

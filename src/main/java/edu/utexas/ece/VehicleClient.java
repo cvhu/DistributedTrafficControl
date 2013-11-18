@@ -8,16 +8,23 @@ import java.util.Random;
 
 public class VehicleClient implements Runnable{
 
-	private Color				color;
-    private GridWorld 			gridWorld;
+	private Color				color;					// Unique color
+    private GridWorld 			gridWorld;				// World of vehicle
+    
     private Boolean             destinationReached;     // Destination reached?
     private Direction           currentDirection;       // Current orientation
     private Coordinate          currentDestination;     // Current Destination
     private Coordinate          currentIntersection;    // Current Intersection
-    private Coordinate finalDestination;
+    private Coordinate 			finalDestination;		// End destination
     private Queue<Coordinate>   destinationQueue;       // Queue of destinations
-    private VehicleAction pendingAction;
+    private VehicleAction 		pendingAction;
     private boolean sent = false;
+    
+    // Performance data
+    private int		moves;
+    private long	startTime;
+    private long	stopTime;
+    private double	velocity;
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
@@ -26,6 +33,8 @@ public class VehicleClient implements Runnable{
         destinationReached = false;
         this.gridWorld = gridWorld;
         this.destinationQueue = new LinkedList<Coordinate>();
+        this.moves = 0;
+        this.startTime = System.nanoTime();
     }
 
     // Getters
@@ -51,6 +60,14 @@ public class VehicleClient implements Runnable{
     
     public Orientation getCurrentOrientation(){
     	return new Orientation(currentDirection, currentIntersection);
+    }
+    
+    public int getMoves(){
+    	return this.moves;
+    }
+    
+    public double getVelocity(){
+    	return this.velocity;
     }
 
     // Initialize
@@ -249,6 +266,7 @@ public class VehicleClient implements Runnable{
     // Move vehicle to next destination
     public synchronized void handleRequestOkay() {
         System.out.println("request okay");
+        this.moves++;
         
         // If we have no future destination, then we've made it
         if (this.destinationQueue.size() == 0){
@@ -275,12 +293,17 @@ public class VehicleClient implements Runnable{
         sent = false;
         
         if ((currentDestination == null) || finalDestination.equals(currentIntersection)) {
+        	this.stopTime = System.nanoTime();
+        	double timeSpent = (double)this.stopTime - (double)this.startTime;
+        	this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
             gridWorld.removeVehicle(this);
         }
     }
 
     // Move vehicle based on action
     public synchronized void handleRequestOkayWithAction(Coordinate c){
+    	this.moves++;
+    	
     	// Figure out our current direction
     	if(c.getX() > this.currentIntersection.getX())
     		this.currentDirection = Direction.EAST;
@@ -298,6 +321,9 @@ public class VehicleClient implements Runnable{
     	
     	// Check if we reached our destination
     	if(this.currentIntersection.equals(this.currentDestination)){
+    		this.stopTime = System.nanoTime();
+    		double timeSpent = (double)this.stopTime - (double)this.startTime;
+        	this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
     		this.destinationReached = true;
     		gridWorld.removeVehicle(this);
     	}

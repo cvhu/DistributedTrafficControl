@@ -294,13 +294,16 @@ public class VehicleClient implements Runnable{
         
         if ((currentDestination == null) || finalDestination.equals(currentIntersection)) {
         	this.stopTime = System.nanoTime();
-        	this.velocity = ((double)this.moves)/((double)(this.stopTime - this.startTime));
+        	double timeSpent = (double)this.stopTime - (double)this.startTime;
+        	this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
             gridWorld.removeVehicle(this);
         }
     }
 
     // Move vehicle based on action
     public synchronized void handleRequestOkayWithAction(Coordinate c){
+    	this.moves++;
+    	
     	// Figure out our current direction
     	if(c.getX() > this.currentIntersection.getX())
     		this.currentDirection = Direction.EAST;
@@ -319,7 +322,8 @@ public class VehicleClient implements Runnable{
     	// Check if we reached our destination
     	if(this.currentIntersection.equals(this.currentDestination)){
     		this.stopTime = System.nanoTime();
-        	this.velocity = ((double)this.moves)/((double)(this.stopTime - this.startTime));
+    		double timeSpent = (double)this.stopTime - (double)this.startTime;
+        	this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
     		this.destinationReached = true;
     		gridWorld.removeVehicle(this);
     	}

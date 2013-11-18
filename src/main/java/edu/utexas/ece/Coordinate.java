@@ -92,4 +92,36 @@ public class Coordinate {
         System.out.printf("isRight: %s %s %s %s %s %s %s\n", northRight, southRight, eastRight, westRight, this, direction, coordinate);
         return northRight || southRight || eastRight || westRight;
     }
+    
+    public Coordinate getTop() {
+        return new Coordinate(x, y + 1);
+    }
+    
+    public Coordinate getBottom() {
+        return new Coordinate(x, y - 1);
+    }
+    
+    public Coordinate getLeft() {
+        return new Coordinate(x - 1, y);
+    }
+    
+    public Coordinate getRight() {
+        return new Coordinate(x + 1, y);
+    }
+    
+    public Direction getDirectionTo(Coordinate coordinate) {
+        if ((coordinate.getY() == y + 1) && (coordinate.getX() == x)) {
+            return Direction.NORTH;
+        }
+        if ((coordinate.getY() == y -1) && (coordinate.getX() == x)) {
+            return Direction.SOUTH;
+        }
+        if ((coordinate.getY() == y) && (coordinate.getX() == x + 1)) {
+            return Direction.EAST;
+        }
+        if ((coordinate.getY() == y) && (coordinate.getX() == x - 1)) {
+            return Direction.WEST;
+        }
+        return null;
+    }
 }

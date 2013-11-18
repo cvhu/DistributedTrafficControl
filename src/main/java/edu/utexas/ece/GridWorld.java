@@ -22,6 +22,14 @@ public class GridWorld {
     
     private GridWorldMode mode;
 
+    public Integer getWidth() {
+        return width;
+    }
+    
+    public Integer getHeight() {
+        return height;
+    }
+    
     public GridWorld(Integer height, Integer width, Integer nVehicles, GridWorldMode mode) {
         // Set height and width of grid world
         this.height = height;
@@ -64,9 +72,9 @@ public class GridWorld {
             VehicleClient vehicle = new VehicleClient(this);
             this.vehicles[i] = vehicle;
             if (mode.equals(GridWorldMode.LA)) {
-                vehicle.generateDestination(height, width);
+                
             } else {
-                vehicle.generateRoute(height, width);
+                vehicle.generateRoute();
             }
             System.out.println(this.vehicles[i]);
             setVehicle(this.vehicles[i]);

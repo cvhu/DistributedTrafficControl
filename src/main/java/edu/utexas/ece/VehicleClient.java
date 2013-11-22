@@ -24,6 +24,7 @@ public class VehicleClient implements Runnable{
     private long	startTime;
     private long	stopTime;
     private double	velocity;
+    private double timeSpent;
 
     // Constructor
     public VehicleClient(GridWorld gridWorld){
@@ -32,7 +33,6 @@ public class VehicleClient implements Runnable{
         this.gridWorld = gridWorld;
         this.destinationQueue = new ArrayList<Coordinate>();
         this.moves = 0;
-        this.startTime = System.nanoTime();
         setStart();
         setDestination();
     }
@@ -122,6 +122,10 @@ public class VehicleClient implements Runnable{
         return String.format("Vehicle: %s-%s -> %s\n Destinations: %s\n", currentIntersection, currentDirection, currentDestination, Arrays.asList(destinationQueue));
     }
     
+    public String printStats() {
+        return String.format("%d, %f, %f", this.moves, this.timeSpent, this.velocity);
+    }
+    
     public static void main(String[] args) {
         VehicleClient vehicle = new VehicleClient(new GridWorld(2, 2, 10, GridWorldMode.DUMMY));
         vehicle.generatePath();
@@ -130,6 +134,7 @@ public class VehicleClient implements Runnable{
 
     @Override
     public void run() {
+        this.startTime = System.nanoTime();
         currentIntersection = startPosition;
         currentDestination = destinationQueue.get(0);
         currentDirection = currentIntersection.getDirectionTo(currentDestination);
@@ -150,7 +155,7 @@ public class VehicleClient implements Runnable{
             }
         }
         this.stopTime = System.nanoTime();
-        double timeSpent = (double)this.stopTime - (double)this.startTime;
+        this.timeSpent = (double)this.stopTime - (double)this.startTime;
         this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
         gridWorld.removeVehicle(this);
     }

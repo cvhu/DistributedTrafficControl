@@ -92,10 +92,10 @@ public class GridWorld {
     		
     		// Print out all information
     		try {
-				this.statisticsStream.write("Vehicle,Velocity\n");
+				this.statisticsStream.write("Vehicle, Moves, Time, Velocity\n");
 	    		
 	    		for(int i = 0; i< vehicles.length; i++){
-	    			this.statisticsStream.write(i + "," + vehicles[i].getVelocity() + "\n");
+	    			this.statisticsStream.write(i + "," + vehicles[i].printStats() + "\n");
 	    		}
 	    		this.statisticsStream.close();
 			} catch (IOException e) {

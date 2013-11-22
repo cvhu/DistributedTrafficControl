@@ -99,19 +99,16 @@ public class VehicleClient implements Runnable{
     // Move vehicle based on the recommended coordinate.
     public synchronized void handleRequestOkay(Coordinate c){
     	this.moves++;
-    	
     	this.currentDirection = currentIntersection.getDirectionTo(c);
     	this.currentIntersection  = c;
-    	if (destinationQueue.isEmpty()) {
-    	    this.stopTime = System.nanoTime();
-            double timeSpent = (double)this.stopTime - (double)this.startTime;
-            this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
-            gridWorld.removeVehicle(this);
-    	} else {
-    	    this.currentDestination = destinationQueue.remove(0);
-            gridWorld.setVehicle(this);
-            sent = false;
+    	gridWorld.setVehicle(this);
+    	if (!destinationQueue.isEmpty()) {
+    	    this.destinationQueue.remove(0);
     	}
+    	if (!destinationQueue.isEmpty()) {
+    	    this.currentDestination = destinationQueue.get(0);
+    	}
+        sent = false;
     }
     
     // Random number generator
@@ -122,7 +119,7 @@ public class VehicleClient implements Runnable{
     }
 
     public String toString(){
-        return String.format("Vehicle: %s-%s -> %s", currentIntersection, currentDirection, currentDestination);
+        return String.format("Vehicle: %s-%s -> %s\n Destinations: %s\n", currentIntersection, currentDirection, currentDestination, Arrays.asList(destinationQueue));
     }
     
     public static void main(String[] args) {
@@ -134,14 +131,14 @@ public class VehicleClient implements Runnable{
     @Override
     public void run() {
         currentIntersection = startPosition;
-        currentDirection = startPosition.getDirectionTo(finalDestination);
-        currentDestination = destinationQueue.remove(0);
+        currentDestination = destinationQueue.get(0);
+        currentDirection = currentIntersection.getDirectionTo(currentDestination);
         gridWorld.setVehicle(this);
         while (!destinationQueue.isEmpty()) {
-            if (!sent) {
+            if (!sent && !currentIntersection.equals(currentDestination)) {
                 IntersectionServer intersection = gridWorld.getServer(currentIntersection);
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -152,6 +149,10 @@ public class VehicleClient implements Runnable{
 //                System.out.println("sent " + this);
             }
         }
+        this.stopTime = System.nanoTime();
+        double timeSpent = (double)this.stopTime - (double)this.startTime;
+        this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
+        gridWorld.removeVehicle(this);
     }
 
 }

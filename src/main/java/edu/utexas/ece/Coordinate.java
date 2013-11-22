@@ -128,7 +128,12 @@ public class Coordinate {
         if (coordinate.getX() < x) {
             candidates.add(Direction.WEST);
         }
-        return candidates.get(rand.nextInt(candidates.size()));
+        try {
+            return candidates.get(rand.nextInt(candidates.size()));
+        } catch (IllegalArgumentException e) {
+            System.err.printf("%s:%s\n", this, coordinate);
+            return null;
+        }
     }
     
     public Coordinate moveOneStepTowards(Coordinate coordinate) {

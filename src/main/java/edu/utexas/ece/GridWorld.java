@@ -5,6 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * @author cvhu
+ *
+ */
 public class GridWorld {
     // Height and width of the grid
     private Integer height;

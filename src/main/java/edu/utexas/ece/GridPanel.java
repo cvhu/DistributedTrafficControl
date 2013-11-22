@@ -128,7 +128,7 @@ public class GridPanel extends JPanel {
         
         // Draw each intersection
         for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {                
+            for (int j = 0; j < this.height; j++) {
                 
                 // Calculate center location of intersection
                 double x = (w / (this.width + 1)) * (i + 1);
@@ -180,8 +180,8 @@ public class GridPanel extends JPanel {
             else if(v.getCurrentDirection() == Direction.WEST)
                 directionInt = 3;
             else{
-                System.err.println("ERROR: Paint invalid direction");
-                System.exit(1);
+                System.err.println("ERROR: Paint invalid direction: " + v);
+//                System.exit(1);
             }
             
             // Calculate center location of intersection

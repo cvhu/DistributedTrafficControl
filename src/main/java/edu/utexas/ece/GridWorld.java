@@ -100,7 +100,7 @@ public class GridWorld {
                 statisticsWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
                 statisticsWriter.write("Vehicle, Moves, Time, Velocity\n");
                 for(int i = 0; i < vehicles.length; i++){
-                    System.out.println(i + "," + vehicles[i].printStats());
+                    //System.out.println(i + "," + vehicles[i].printStats());
                     statisticsWriter.write(i + "," + vehicles[i].printStats() + "\n");
                 }
                 statisticsWriter.close();
@@ -125,9 +125,10 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-//        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
-//        new GridWorld(4, 4, 256, GridWorldMode.LA);
-//        new GridWorld(4, 4, 256, GridWorldMode.WQS);
-        new GridWorld(4, 4, 256, GridWorldMode.LAWQS);
+        
+        long start = System.currentTimeMillis();
+        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
+        System.out.println("DUMMY: " + (System.currentTimeMillis() - start));
+        
     }
 }

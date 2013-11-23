@@ -76,7 +76,7 @@ public class Coordinate {
     public boolean isStraight(Coordinate coordinate, Direction direction) {
         boolean directionVertical = (direction == Direction.NORTH) || (direction == Direction.SOUTH);
         boolean directionHorizontal = (direction == Direction.EAST) || (direction == Direction.WEST);
-        System.out.printf("isStraight: %s %s %s %s %s %s %s\n", isVertical(coordinate), directionVertical, isHorizontal(coordinate), directionHorizontal, this, direction, coordinate);
+        //System.out.printf("isStraight: %s %s %s %s %s %s %s\n", isVertical(coordinate), directionVertical, isHorizontal(coordinate), directionHorizontal, this, direction, coordinate);
         return (isVertical(coordinate) && directionVertical) || (isHorizontal(coordinate) && directionHorizontal);
     }
     
@@ -85,7 +85,7 @@ public class Coordinate {
         boolean southLeft = (direction == Direction.SOUTH) && (isHorizontal(coordinate) && (coordinate.getX() == (x + 1)));
         boolean eastLeft = (direction == Direction.EAST) && (isVertical(coordinate) && (coordinate.getY() == (y + 1)));
         boolean westLeft = (direction == Direction.WEST) && (isVertical(coordinate) && (coordinate.getY() == (y - 1)));
-        System.out.printf("isLeft: %s %s %s %s %s %s %s\n", northLeft, southLeft, eastLeft, westLeft, this, direction, coordinate);
+        //System.out.printf("isLeft: %s %s %s %s %s %s %s\n", northLeft, southLeft, eastLeft, westLeft, this, direction, coordinate);
         return northLeft || southLeft || eastLeft || westLeft;
     }
     
@@ -94,7 +94,7 @@ public class Coordinate {
         boolean southRight = (direction == Direction.SOUTH) && (isHorizontal(coordinate) && (coordinate.getX() == (x - 1)));
         boolean eastRight = (direction == Direction.EAST) && (isVertical(coordinate) && (coordinate.getY() == (y - 1)));
         boolean westRight = (direction == Direction.WEST) && (isVertical(coordinate) && (coordinate.getY() == (y + 1)));
-        System.out.printf("isRight: %s %s %s %s %s %s %s\n", northRight, southRight, eastRight, westRight, this, direction, coordinate);
+        //System.out.printf("isRight: %s %s %s %s %s %s %s\n", northRight, southRight, eastRight, westRight, this, direction, coordinate);
         return northRight || southRight || eastRight || westRight;
     }
     

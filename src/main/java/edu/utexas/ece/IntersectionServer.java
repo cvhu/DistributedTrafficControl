@@ -82,7 +82,7 @@ public class IntersectionServer implements Runnable{
     
     public void printRequests() {
         for (Direction direction : requestsMap.keySet()) {
-            System.out.printf("request[%s]: %s\n", direction, Arrays.asList(requestsMap.get(direction)).toString());
+            //System.out.printf("request[%s]: %s\n", direction, Arrays.asList(requestsMap.get(direction)).toString());
         }
     }
     
@@ -102,20 +102,20 @@ public class IntersectionServer implements Runnable{
     public synchronized void popRequests(Direction direction, boolean straight) {
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
         if (requests.size() > 0) {
-            System.out.println("pop: " + Arrays.asList(requests));
+            //System.out.println("pop: " + Arrays.asList(requests));
         }
         if (!requests.isEmpty()) {
             VehicleClient vehicle = requests.get(0);
             VehicleAction action = vehicle.getAction();
             if ((vehicle.getCurrentDestination() == null) || (action == null)) {
-                System.out.println("Before pop" + Arrays.asList(requests));
+                //System.out.println("Before pop" + Arrays.asList(requests));
                 processVehicle(vehicle);
                 requests.remove(0);
-                System.out.println("After pop" + Arrays.asList(requests));
+                //System.out.println("After pop" + Arrays.asList(requests));
                 requestsMap.put(direction, requests);
                 return;
             }
-            System.out.println("popping queue: " + vehicle.toString());
+            //System.out.println("popping queue: " + vehicle.toString());
 //            vehicle.handleRequestOkay();
             boolean valid;
             if (straight) {
@@ -124,13 +124,13 @@ public class IntersectionServer implements Runnable{
                 valid = (action == VehicleAction.TURN_LEFT);
             }
             if (valid) {
-                System.out.println("Before pop" + Arrays.asList(requests));
+               // System.out.println("Before pop" + Arrays.asList(requests));
                 processVehicle(vehicle);
                 requests.remove(0);
-                System.out.println("After pop" + Arrays.asList(requests));
+               // System.out.println("After pop" + Arrays.asList(requests));
                 requestsMap.put(direction, requests);
             } else {
-                System.out.println("Invalid request");
+               // System.out.println("Invalid request");
             }
         } else {    
 //            System.out.println("empty queue");
@@ -161,7 +161,7 @@ public class IntersectionServer implements Runnable{
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
         requests.add(client);
         requestsMap.put(direction, requests);
-        printRequests();
+        //printRequests();
     }
     
     public static void main(String[] argv) {

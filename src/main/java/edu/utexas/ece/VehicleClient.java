@@ -20,6 +20,8 @@ public class VehicleClient implements Runnable{
     private VehicleAction 		pendingAction;
     private boolean sent = false;
     
+    private int roundsWaited;
+    
     // Performance data
     private int		moves;
     private long	startTime;
@@ -36,6 +38,29 @@ public class VehicleClient implements Runnable{
         this.moves = 0;
         setStart();
         setDestination();
+        switch (gridWorld.getMode()) {
+            case LA:
+            case WQS:
+            case LAWQS:
+                this.generateDestination();
+                break;
+            case DUMMY:
+            default:
+                this.generatePath();
+                break;
+        }
+    }
+    
+    public void resetRoundsWaited() {
+        roundsWaited = 0;
+    }
+    
+    public void incrementRoundsWaited() {
+        roundsWaited++;
+    }
+    
+    public int getRoundsWaited() {
+        return roundsWaited;
     }
 
     // Getters
@@ -85,7 +110,7 @@ public class VehicleClient implements Runnable{
             currentPos = currentPos.moveOneStepTowards(finalDestination);
             destinationQueue.add(currentPos);
         }
-        System.out.printf("Generated Path: %s\n Start: %s\n End: %s\n", Arrays.asList(destinationQueue).toString(), startPosition, finalDestination);
+        //System.out.printf("Generated Path: %s\n Start: %s\n End: %s\n", Arrays.asList(destinationQueue).toString(), startPosition, finalDestination);
     }
     
     public void generateDestination() {
@@ -157,7 +182,8 @@ public class VehicleClient implements Runnable{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(this);
+//            System.out.println(this);
+            resetRoundsWaited();
             intersection.sendRequest(this);
             sent = true;
             synchronized(this) {

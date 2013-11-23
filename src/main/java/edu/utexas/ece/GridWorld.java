@@ -51,12 +51,21 @@ public class GridWorld {
             for (int j = 0; j < height; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
                 IntersectionServer intersection;
-                if (mode.equals(GridWorldMode.LA)) {
-                    intersection = new IntersectionServerLA(coordinate, this);
-                } else {
-                    intersection = new IntersectionServer(coordinate, this);
+                switch (mode) {
+                    case LA:
+                        intersection = new IntersectionServerLA(coordinate, this);
+                        break;
+                    case WQS:
+                        intersection = new IntersectionServerWQS(coordinate, this);
+                        break;
+                    case LAWQS:
+                        intersection = new IntersectionServerLA(coordinate, this);
+                        break;
+                    case DUMMY:
+                    default:
+                        intersection = new IntersectionServer(coordinate, this);
+                        break;
                 }
-                
                 intersectionsMap.put(coordinate.toString(), intersection);
                 new Thread(intersection).start();
             }
@@ -67,13 +76,12 @@ public class GridWorld {
         for (int i = 0; i < nVehicles; i++) {
             VehicleClient vehicle = new VehicleClient(this);
             this.vehicles[i] = vehicle;
-            if (mode.equals(GridWorldMode.LA)) {
-                vehicle.generateDestination();
-            } else {
-                vehicle.generatePath();
-            }
             new Thread(vehicle).start();
         }
+    }
+    
+    public GridWorldMode getMode() {
+        return this.mode;
     }
     
     public synchronized void removeVehicle(VehicleClient vehicle) throws IOException{
@@ -118,6 +126,7 @@ public class GridWorld {
 
     public static void main(String[] args) {
 //        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
-        new GridWorld(4, 4, 256, GridWorldMode.LA);
+//        new GridWorld(4, 4, 256, GridWorldMode.LA);
+        new GridWorld(4, 4, 256, GridWorldMode.WQS);
     }
 }

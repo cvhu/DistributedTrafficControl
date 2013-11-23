@@ -24,6 +24,7 @@ public class VehicleClient implements Runnable{
     
     // Performance data
     private int		moves;
+    private int     counter;
     private long	startTime;
     private long	stopTime;
     private double	velocity;
@@ -36,6 +37,7 @@ public class VehicleClient implements Runnable{
         this.gridWorld = gridWorld;
         this.destinationQueue = new ArrayList<Coordinate>();
         this.moves = 0;
+        this.counter = 0;
         setStart();
         setDestination();
         switch (gridWorld.getMode()) {
@@ -57,6 +59,7 @@ public class VehicleClient implements Runnable{
     
     public void incrementRoundsWaited() {
         roundsWaited++;
+        this.counter++;
     }
     
     public int getRoundsWaited() {
@@ -86,6 +89,14 @@ public class VehicleClient implements Runnable{
     
     public int getMoves(){
     	return this.moves;
+    }
+    
+    public int getCounter() {
+        return this.counter;
+    }
+    
+    public double getVelocityCounter() {
+        return (0.0 + this.moves)/this.counter;
     }
     
     public double getVelocity(){
@@ -148,7 +159,7 @@ public class VehicleClient implements Runnable{
     }
     
     public String printStats() {
-        return String.format("%d, %f, %f", this.moves, this.timeSpent, this.velocity);
+        return String.format("%d, %d, %f, %f, %f", this.moves, this.counter, this.timeSpent, this.velocity, getVelocityCounter());
     }
     
     public static void main(String[] args) {

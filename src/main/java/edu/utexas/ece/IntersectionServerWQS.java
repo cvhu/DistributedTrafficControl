@@ -24,59 +24,6 @@ public class IntersectionServerWQS extends IntersectionServer{
         }
     }
     
-    public IntersectionState getWQSState() {
-        switch (currentState) {
-            case VERTICAL_STRAIGHT:
-                return IntersectionState.VERTICAL_LEFT;
-            case HORIZONTAL_STRAIGHT:
-                return IntersectionState.HORIZONTAL_LEFT;
-            default:
-                break;
-        }
-        List<IntersectionState> candidates = new ArrayList<IntersectionState>();
-        int maxWeight = Integer.MIN_VALUE;
-        for (IntersectionState state : IntersectionState.values()) {
-            int weight = 0;
-            switch (state) {
-                case VERTICAL_LEFT:
-                case VERTICAL_STRAIGHT:
-                    weight += getQWeight(Direction.NORTH);
-                    weight += getQWeight(Direction.SOUTH);
-                    break;
-                case HORIZONTAL_LEFT:
-                case HORIZONTAL_STRAIGHT:
-                    weight += getQWeight(Direction.EAST);
-                    weight += getQWeight(Direction.WEST);
-                    break;
-                default:
-                    break;
-            }
-            if (weight > maxWeight) {
-                candidates.clear();
-                candidates.add(state);
-                maxWeight = weight;
-            } else if (weight == maxWeight) {
-                candidates.add(state);
-            }
-        }
-        Random rand = new Random();
-        return candidates.get(rand.nextInt(candidates.size()));
-    }
     
-    public synchronized int getQWeight(Direction direction) {
-        int weight = 0;
-        for (VehicleClient vehicle : requestsMap.get(direction)) {
-            weight += vehicle.getRoundsWaited();
-        }
-        return weight;
-    }
-    
-    public synchronized void incrementQWeight() {
-        for (Entry<Direction, ArrayList<VehicleClient>> entry : requestsMap.entrySet()) {
-            for (VehicleClient vehicle : entry.getValue()) {
-                vehicle.incrementRoundsWaited();
-            }
-        }
-    }
 
 }

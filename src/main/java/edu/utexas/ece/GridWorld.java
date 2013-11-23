@@ -100,20 +100,31 @@ public class GridWorld {
     	if(this.nVehicles == 0){
     	 // Open
     	    BufferedWriter statisticsWriter;
+    	    BufferedWriter serverLoadWriter;
             try {
                 File file = new File(title);
+                File sfile = new File("server" + title);
                 if (!file.exists()) {
                     file.createNewFile();
                 }
+                if (!sfile.exists()) {
+                    sfile.createNewFile();
+                }
                 statisticsWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-                statisticsWriter.write("Vehicle, Moves, Time, Velocity\n");
-                for(int i = 0; i < vehicles.length; i++){
+                serverLoadWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sfile)));
+                statisticsWriter.write("Vehicle, Moves, Counter, Time, Velocity, CVelocity\n");
+                serverLoadWriter.write("Server, Load Count\n");
+                for (int i = 0; i < vehicles.length; i++) {
                     //System.out.println(i + "," + vehicles[i].printStats());
                     statisticsWriter.write(i + "," + vehicles[i].printStats() + "\n");
+                }
+                for (IntersectionServer intersection : intersectionsMap.values()) {
+                    serverLoadWriter.write(String.format("'%s', %d\n", intersection.getCoordinate(), intersection.getLoadCount()));
                 }
                 System.out.printf("The %s algorithm took %d milliseconds\n", mode, System.currentTimeMillis() - start);
                 statisticsWriter.write(String.format("The %s algorithm took %d milliseconds\n", mode, System.currentTimeMillis() - start));
                 statisticsWriter.close();
+                serverLoadWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -146,7 +157,7 @@ public class GridWorld {
                 
                 @Override
                 public void run() {
-                    new GridWorld(4, 4, 512, mode);
+                    new GridWorld(2, 2, 10, mode);
                     
                 }
             }).start();

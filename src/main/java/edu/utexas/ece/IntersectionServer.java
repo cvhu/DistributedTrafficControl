@@ -1,8 +1,10 @@
 package edu.utexas.ece;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class IntersectionServer implements Runnable{
     
@@ -16,8 +18,10 @@ public class IntersectionServer implements Runnable{
     protected IntersectionState currentState;
     protected GridWorld gridWorld;
     private volatile boolean running;
+    private int loadCount;
     
     public IntersectionServer(Coordinate coordinate, GridWorld gridWorld) {
+        this.loadCount = 0;
         this.gridWorld = gridWorld;
         this.coordinate = coordinate;
         requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
@@ -34,6 +38,8 @@ public class IntersectionServer implements Runnable{
                 while (running) {
                     loopStates();
                 }
+                currentState = null;
+                gridWorld.setIntersection(IntersectionServer.this);
             }
         }).run();
     }
@@ -64,6 +70,7 @@ public class IntersectionServer implements Runnable{
     }
     
     public synchronized void processQueue() {
+        incrementQWeight();
         switch (currentState) {
             case VERTICAL_STRAIGHT:
                 popRequests(Direction.NORTH, true);
@@ -162,12 +169,72 @@ public class IntersectionServer implements Runnable{
         }
     }
     
+    public IntersectionState getWQSState() {
+        switch (currentState) {
+            case VERTICAL_STRAIGHT:
+                return IntersectionState.VERTICAL_LEFT;
+            case HORIZONTAL_STRAIGHT:
+                return IntersectionState.HORIZONTAL_LEFT;
+            default:
+                break;
+        }
+        List<IntersectionState> candidates = new ArrayList<IntersectionState>();
+        int maxWeight = Integer.MIN_VALUE;
+        for (IntersectionState state : IntersectionState.values()) {
+            int weight = 0;
+            switch (state) {
+                case VERTICAL_LEFT:
+                case VERTICAL_STRAIGHT:
+                    weight += getQWeight(Direction.NORTH);
+                    weight += getQWeight(Direction.SOUTH);
+                    break;
+                case HORIZONTAL_LEFT:
+                case HORIZONTAL_STRAIGHT:
+                    weight += getQWeight(Direction.EAST);
+                    weight += getQWeight(Direction.WEST);
+                    break;
+                default:
+                    break;
+            }
+            if (weight > maxWeight) {
+                candidates.clear();
+                candidates.add(state);
+                maxWeight = weight;
+            } else if (weight == maxWeight) {
+                candidates.add(state);
+            }
+        }
+        Random rand = new Random();
+        return candidates.get(rand.nextInt(candidates.size()));
+    }
+    
+    public synchronized int getQWeight(Direction direction) {
+        int weight = 0;
+        for (VehicleClient vehicle : requestsMap.get(direction)) {
+            weight += vehicle.getRoundsWaited();
+        }
+        return weight;
+    }
+    
+    public synchronized void incrementQWeight() {
+        for (Entry<Direction, ArrayList<VehicleClient>> entry : requestsMap.entrySet()) {
+            for (VehicleClient vehicle : entry.getValue()) {
+                vehicle.incrementRoundsWaited();
+            }
+        }
+    }
+    
     public synchronized void sendRequest(final VehicleClient client) {
+        this.loadCount++;
         Direction direction = client.getCurrentDirection();
         ArrayList<VehicleClient> requests = requestsMap.get(direction);
         requests.add(client);
         requestsMap.put(direction, requests);
         //printRequests();
+    }
+    
+    public int getLoadCount() {
+        return this.loadCount;
     }
     
     public static void main(String[] argv) {

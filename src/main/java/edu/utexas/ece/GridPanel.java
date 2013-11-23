@@ -138,22 +138,26 @@ public class GridPanel extends JPanel {
                 if(intersections[i][j] != null){
                     // Get the state of the intersection
                     IntersectionState	state = intersections[i][j].getState();
-                    switch(state){
-	                    case VERTICAL_LEFT:
-	                    	g2d.drawImage(this.vertical_left, (int)(x-12), (int)(y-12), null);
-	                    	break;
-	                    case VERTICAL_STRAIGHT:
-	                    	g2d.drawImage(this.vertical_straight, (int)(x-12), (int)(y-12), null);
-	                    	break;
-	                    case HORIZONTAL_LEFT:
-	                    	g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
-	                    	break;
-	                    case HORIZONTAL_STRAIGHT:
-	                    	g2d.drawImage(this.horizontal_straight, (int)(x-12), (int)(y-12), null);
-	                    	break;
-	                    default:
-	                    	System.err.println("ERROR: Paint invalid server state");
-//	                    	System.exit(1);
+                    try {
+                        switch(state){
+                            case VERTICAL_LEFT:
+                                g2d.drawImage(this.vertical_left, (int)(x-12), (int)(y-12), null);
+                                break;
+                            case VERTICAL_STRAIGHT:
+                                g2d.drawImage(this.vertical_straight, (int)(x-12), (int)(y-12), null);
+                                break;
+                            case HORIZONTAL_LEFT:
+                                g2d.drawImage(this.horizontal_left, (int)(x-12), (int)(y-12), null);
+                                break;
+                            case HORIZONTAL_STRAIGHT:
+                                g2d.drawImage(this.horizontal_straight, (int)(x-12), (int)(y-12), null);
+                                break;
+                            default:
+//                              System.err.println("ERROR: Paint invalid server state");
+//                              System.exit(1);
+                        }
+                    } catch (NullPointerException e) {
+                        
                     }
                 }
             }

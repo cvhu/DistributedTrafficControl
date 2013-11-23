@@ -87,7 +87,12 @@ public class IntersectionServer implements Runnable{
     }
     
     public Integer getRequestsSize(Direction direction) {
-        return requestsMap.get(direction.toString()).size();
+        ArrayList<VehicleClient> requests = requestsMap.get(direction.toString());
+        if (requests == null) {
+            return 0;
+        } else {
+            return requests.size();
+        }
     }
     
     public void processVehicle(VehicleClient vehicle) {

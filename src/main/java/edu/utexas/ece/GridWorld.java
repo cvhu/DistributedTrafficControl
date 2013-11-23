@@ -85,7 +85,7 @@ public class GridWorld {
     	 // Open
     	    BufferedWriter statisticsWriter;
             try {
-                File file = new File(String.format("stats_%dx%d_%d_%s.csv", width, height, nVehicles, mode));
+                File file = new File(String.format("stats_%dx%d_%d_%s.csv", width, height, vehicles.length, mode));
                 if (!file.exists()) {
                     file.createNewFile();
                 }
@@ -117,6 +117,7 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        new GridWorld(2, 2, 256, GridWorldMode.DUMMY);
+//        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
+        new GridWorld(4, 4, 256, GridWorldMode.LA);
     }
 }

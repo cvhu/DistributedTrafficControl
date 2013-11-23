@@ -153,7 +153,7 @@ public class GridPanel extends JPanel {
 	                    	break;
 	                    default:
 	                    	System.err.println("ERROR: Paint invalid server state");
-	                    	System.exit(1);
+//	                    	System.exit(1);
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package edu.utexas.ece;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -101,14 +102,13 @@ public class VehicleClient implements Runnable{
     	this.moves++;
     	this.currentDirection = currentIntersection.getDirectionTo(c);
     	this.currentIntersection  = c;
-    	gridWorld.setVehicle(this);
     	if (!destinationQueue.isEmpty()) {
-    	    this.destinationQueue.remove(0);
-    	}
-    	if (!destinationQueue.isEmpty()) {
-    	    this.currentDestination = destinationQueue.get(0);
+    	    this.currentDestination = this.destinationQueue.remove(0);
+    	} else {
+    	    this.currentDestination = null;
     	}
         sent = false;
+        this.notify();
     }
     
     // Random number generator
@@ -119,7 +119,7 @@ public class VehicleClient implements Runnable{
     }
 
     public String toString(){
-        return String.format("Vehicle: %s-%s -> %s\n Destinations: %s\n", currentIntersection, currentDirection, currentDestination, Arrays.asList(destinationQueue));
+        return String.format("Vehicle: %s-%s -> %s\n Destinations: %s %b\n", currentIntersection, currentDirection, currentDestination, Arrays.asList(destinationQueue), destinationQueue.isEmpty());
     }
     
     public String printStats() {
@@ -131,33 +131,47 @@ public class VehicleClient implements Runnable{
         vehicle.generatePath();
         new Thread(vehicle).start();
     }
+    
+    public void stop() {
+        this.stopTime = System.nanoTime();
+        this.timeSpent = (double)this.stopTime - (double)this.startTime;
+        this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
+        try {
+            gridWorld.removeVehicle(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run() {
         this.startTime = System.nanoTime();
         currentIntersection = startPosition;
-        currentDestination = destinationQueue.get(0);
+        currentDestination = destinationQueue.remove(0);
         currentDirection = currentIntersection.getDirectionTo(currentDestination);
         gridWorld.setVehicle(this);
-        while (!destinationQueue.isEmpty()) {
-            if (!sent && !currentIntersection.equals(currentDestination)) {
-                IntersectionServer intersection = gridWorld.getServer(currentIntersection);
+        while (currentDestination != null) {
+            IntersectionServer intersection = gridWorld.getServer(currentIntersection);
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(this);
+            intersection.sendRequest(this);
+            sent = true;
+            synchronized(this) {
                 try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
+                    while (sent) {
+                        this.wait();
+                    }
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                System.out.println(this);
-                intersection.sendRequest(this);
-                sent = true;
-            } else {
-//                System.out.println("sent " + this);
             }
         }
-        this.stopTime = System.nanoTime();
-        this.timeSpent = (double)this.stopTime - (double)this.startTime;
-        this.velocity = ((double)this.moves)/(timeSpent/1000000000.0);
-        gridWorld.removeVehicle(this);
+        stop();
     }
 
 }

@@ -90,7 +90,7 @@ public class IntersectionServer implements Runnable{
         return requestsMap.get(direction.toString()).size();
     }
     
-    public synchronized void processVehicle(VehicleClient vehicle) {
+    public void processVehicle(VehicleClient vehicle) {
         vehicle.handleRequestOkay(vehicle.getCurrentDestination());
     }
     

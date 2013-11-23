@@ -1,8 +1,10 @@
 package edu.utexas.ece;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 
 /**
@@ -22,8 +24,6 @@ public class GridWorld {
     // Number of vehicles on grid
     private int		nVehicles;
     
-    private BufferedWriter	statisticsStream;
-    
     private GridWorldMode mode;
 
     public Integer getWidth() {
@@ -40,14 +40,6 @@ public class GridWorld {
         this.width = width;
         this.nVehicles = nVehicles;
         this.mode = mode;
-        
-        // Open output file stream
-        try {
-			this.statisticsStream = new BufferedWriter(new FileWriter("statistic.csv"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         
         // Create frame
         frame = new GridFrame(this.width, this.height);
@@ -84,26 +76,32 @@ public class GridWorld {
         }
     }
     
-    public synchronized void removeVehicle(VehicleClient vehicle){
+    public synchronized void removeVehicle(VehicleClient vehicle) throws IOException{
     	// Decrement vehicle count
     	this.nVehicles--;
+    	this.frame.removeVehicle(vehicle);
     	// If all vehicles have reached their destination
     	if(this.nVehicles == 0){
-    		
-    		// Print out all information
-    		try {
-				this.statisticsStream.write("Vehicle, Moves, Time, Velocity\n");
-	    		
-	    		for(int i = 0; i< vehicles.length; i++){
-	    			this.statisticsStream.write(i + "," + vehicles[i].printStats() + "\n");
-	    		}
-	    		this.statisticsStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    		System.exit(0);
+    	 // Open
+    	    BufferedWriter statisticsWriter;
+            try {
+                File file = new File(String.format("stats_%dx%d_%d_%s.csv", width, height, nVehicles, mode));
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                statisticsWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+                statisticsWriter.write("Vehicle, Moves, Time, Velocity\n");
+                for(int i = 0; i < vehicles.length; i++){
+                    System.out.println(i + "," + vehicles[i].printStats());
+                    statisticsWriter.write(i + "," + vehicles[i].printStats() + "\n");
+                }
+                statisticsWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                System.exit(0);
+            }
     	}
-    	this.frame.removeVehicle(vehicle);
     }
     
     public synchronized void setVehicle(VehicleClient vehicle) {
@@ -119,6 +117,6 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        new GridWorld(3, 3, 10, GridWorldMode.DUMMY);
+        new GridWorld(2, 2, 256, GridWorldMode.DUMMY);
     }
 }

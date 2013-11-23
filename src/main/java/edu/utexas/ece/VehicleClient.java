@@ -166,6 +166,7 @@ public class VehicleClient implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     @Override

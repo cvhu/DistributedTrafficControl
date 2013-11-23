@@ -21,6 +21,10 @@ public class GridWorld {
     private HashMap<String, IntersectionServer> intersectionsMap;
     private VehicleClient[] vehicles;
     
+    private long start;
+    
+    private String title;
+    
     // Number of vehicles on grid
     private int		nVehicles;
     
@@ -35,6 +39,7 @@ public class GridWorld {
     }
     
     public GridWorld(Integer height, Integer width, Integer nVehicles, GridWorldMode mode) {
+        title = String.format("stats_%dx%d_%d_%s.csv", width, height, nVehicles, mode);
         // Set height and width of grid world
         this.height = height;
         this.width = width;
@@ -43,6 +48,9 @@ public class GridWorld {
         
         // Create frame
         frame = new GridFrame(this.width, this.height);
+        frame.setTitle(title);
+        
+        start = System.currentTimeMillis();
 
         // Initialize intersection map
         
@@ -93,7 +101,7 @@ public class GridWorld {
     	 // Open
     	    BufferedWriter statisticsWriter;
             try {
-                File file = new File(String.format("stats_%dx%d_%d_%s.csv", width, height, vehicles.length, mode));
+                File file = new File(title);
                 if (!file.exists()) {
                     file.createNewFile();
                 }
@@ -103,13 +111,21 @@ public class GridWorld {
                     //System.out.println(i + "," + vehicles[i].printStats());
                     statisticsWriter.write(i + "," + vehicles[i].printStats() + "\n");
                 }
+                System.out.printf("The %s algorithm took %d milliseconds\n", mode, System.currentTimeMillis() - start);
+                statisticsWriter.write(String.format("The %s algorithm took %d milliseconds\n", mode, System.currentTimeMillis() - start));
                 statisticsWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                System.exit(0);
+                stopAll();
             }
     	}
+    }
+    
+    public void stopAll() {
+        for (IntersectionServer intersection : intersectionsMap.values()) {
+            intersection.terminate();
+        }
     }
     
     public synchronized void setVehicle(VehicleClient vehicle) {
@@ -125,10 +141,15 @@ public class GridWorld {
     }
 
     public static void main(String[] args) {
-        
-        long start = System.currentTimeMillis();
-        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
-        System.out.println("DUMMY: " + (System.currentTimeMillis() - start));
-        
+        for (final GridWorldMode mode : GridWorldMode.values()) {
+            new Thread(new Runnable() {
+                
+                @Override
+                public void run() {
+                    new GridWorld(4, 4, 512, mode);
+                    
+                }
+            }).start();
+        }
     }
 }

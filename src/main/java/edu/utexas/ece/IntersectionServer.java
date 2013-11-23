@@ -15,12 +15,14 @@ public class IntersectionServer implements Runnable{
     protected HashMap<IntersectionState, Integer> durationsMap;
     protected IntersectionState currentState;
     protected GridWorld gridWorld;
+    private volatile boolean running;
     
     public IntersectionServer(Coordinate coordinate, GridWorld gridWorld) {
         this.gridWorld = gridWorld;
         this.coordinate = coordinate;
         requestsMap = new HashMap<Direction, ArrayList<VehicleClient>>();
         durationsMap = new HashMap<IntersectionState, Integer>();
+        running = true;
         init();
     }
     
@@ -29,11 +31,15 @@ public class IntersectionServer implements Runnable{
             
             @Override
             public void run() {
-                while (true) {
+                while (running) {
                     loopStates();
                 }
             }
         }).run();
+    }
+    
+    public void terminate() {
+        running = false;
     }
     
     public void loopStates() {

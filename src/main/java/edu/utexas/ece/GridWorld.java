@@ -59,7 +59,7 @@ public class GridWorld {
                         intersection = new IntersectionServerWQS(coordinate, this);
                         break;
                     case LAWQS:
-                        intersection = new IntersectionServerLA(coordinate, this);
+                        intersection = new IntersectionServerLAWQS(coordinate, this);
                         break;
                     case DUMMY:
                     default:
@@ -127,6 +127,7 @@ public class GridWorld {
     public static void main(String[] args) {
 //        new GridWorld(4, 4, 512, GridWorldMode.DUMMY);
 //        new GridWorld(4, 4, 256, GridWorldMode.LA);
-        new GridWorld(4, 4, 256, GridWorldMode.WQS);
+//        new GridWorld(4, 4, 256, GridWorldMode.WQS);
+        new GridWorld(4, 4, 256, GridWorldMode.LAWQS);
     }
 }

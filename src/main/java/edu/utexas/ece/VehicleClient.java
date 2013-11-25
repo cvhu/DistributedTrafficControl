@@ -42,11 +42,11 @@ public class VehicleClient implements Runnable{
         setDestination();
         switch (gridWorld.getMode()) {
             case LA:
-            case WQS:
             case LAWQS:
                 this.generateDestination();
                 break;
             case DUMMY:
+            case WQS:
             default:
                 this.generatePath();
                 break;

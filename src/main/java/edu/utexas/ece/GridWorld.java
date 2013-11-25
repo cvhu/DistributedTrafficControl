@@ -157,8 +157,7 @@ public class GridWorld {
                 
                 @Override
                 public void run() {
-                    new GridWorld(2, 2, 10, mode);
-                    
+                    new GridWorld(4, 4, 10, mode);
                 }
             }).start();
         }

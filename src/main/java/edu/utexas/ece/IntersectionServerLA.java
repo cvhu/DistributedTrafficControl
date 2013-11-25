@@ -22,17 +22,11 @@ public class IntersectionServerLA extends IntersectionServer{
             candidates.add(coordinate.getRight());
         } else if (destination.getX() < coordinate.getX()) {
             candidates.add(coordinate.getLeft());
-        } else {
-            candidates.add(coordinate.getLeft());
-            candidates.add(coordinate.getRight());
         }
         
         if (destination.getY() > coordinate.getY()) {
             candidates.add(coordinate.getTop());
         } else if (destination.getY() < coordinate.getY()) {
-            candidates.add(coordinate.getBottom());
-        } else {
-            candidates.add(coordinate.getTop());
             candidates.add(coordinate.getBottom());
         }
         

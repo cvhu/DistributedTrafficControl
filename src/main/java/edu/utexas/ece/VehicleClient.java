@@ -138,10 +138,12 @@ public class VehicleClient implements Runnable{
     	this.moves++;
     	this.currentDirection = currentIntersection.getDirectionTo(c);
     	this.currentIntersection  = c;
-    	if (!destinationQueue.isEmpty()) {
-    	    this.currentDestination = this.destinationQueue.remove(0);
-    	} else {
-    	    this.currentDestination = null;
+    	if (currentDestination.equals(currentIntersection)) {
+    	    if (!destinationQueue.isEmpty()) {
+                this.currentDestination = this.destinationQueue.remove(0);
+            } else {
+                this.currentDestination = null;
+            }
     	}
         sent = false;
         this.notify();

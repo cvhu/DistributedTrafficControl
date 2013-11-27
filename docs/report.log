@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 15:52
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 18:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -369,35 +369,69 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(./report.aux)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip77
+\thm@postskip=\skip78
+\thm@headsep=\skip79
+\dth@everypar=\toks29
+)
+\c@thm=\count124
+ (./report.aux
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+
+LaTeX Warning: Label `intersection_states' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-
-(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+ (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count124
+\scratchcounter=\count125
 \scratchdimen=\dimen153
 \scratchbox=\box40
-\nofMPsegments=\count125
-\nofMParguments=\count126
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count127
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count128
 \MPscratchDim=\dimen154
-\MPnumerator=\count128
-\makeMPintoPDFobject=\count129
-\everyMPtoPDFconversion=\toks25
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
+\everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -450,160 +484,168 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 
+<images/gridworld_barebone.png, id=1, 488.82625pt x 469.755pt>
+File: images/gridworld_barebone.png Graphic file (type png)
 
-LaTeX Warning: Citation `mallet' on page 1 undefined on input line 38.
-
-
-LaTeX Warning: Citation `lda2003' on page 1 undefined on input line 38.
-
-
-LaTeX Warning: Citation `blei2011' on page 1 undefined on input line 50.
-
-
-LaTeX Warning: Reference `sample_patent' on page 1 undefined on input line 63.
+<use images/gridworld_barebone.png>
+Package pdftex.def Info: images/gridworld_barebone.png used on input line 58.
+(pdftex.def)             Requested size: 129.0pt x 123.9684pt.
+ [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-LaTeX Warning: Reference `sample_patent' on page 1 undefined on input line 63.
-
-
-LaTeX Warning: Citation `lda2003' on page 1 undefined on input line 71.
-
-
-LaTeX Warning: Reference `topic_proportion' on page 1 undefined on input line 7
-1.
-
-LaTeX Font Info:    Try loading font information for U+msa on input line 71.
-(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 71.
-
-(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
-]
-Underfull \hbox (badness 1635) in paragraph at lines 87--88
-[]\OT1/ptm/m/n/10 Topic pro-por-tions for doc-u-ment d,
- []
-
-
-LaTeX Warning: Reference `tm_notations' on page 2 undefined on input line 102.
-
-
-LaTeX Warning: Reference `graphical_model' on page 2 undefined on input line 12
-8.
-
-
-LaTeX Warning: Citation `lda2003' on page 2 undefined on input line 134.
-
-
-LaTeX Warning: Citation `bach2010' on page 2 undefined on input line 134.
-
-
-LaTeX Warning: Citation `wallach2006' on page 2 undefined on input line 150.
-
-
-LaTeX Warning: Citation `griffiths2005' on page 2 undefined on input line 150.
-
-
-LaTeX Warning: Reference `graphical_model' on page 2 undefined on input line 15
-2.
-
-
-LaTeX Warning: Citation `blei2006' on page 2 undefined on input line 152.
-
-[2]
-
-LaTeX Warning: Citation `blei2006' on page 3 undefined on input line 154.
-
-
-LaTeX Warning: Citation `teh2006' on page 3 undefined on input line 154.
-
-
-LaTeX Warning: Citation `rosen-zvi2004' on page 3 undefined on input line 156.
-
-
-LaTeX Warning: Citation `blei2010' on page 3 undefined on input line 156.
-
-
-LaTeX Warning: Citation `mimno2008' on page 3 undefined on input line 156.
-
-
-LaTeX Warning: Citation `blei2007' on page 3 undefined on input line 156.
-
-
-LaTeX Warning: Citation `blei2007a' on page 3 undefined on input line 158.
-
-
-LaTeX Warning: Citation `li2006' on page 3 undefined on input line 158.
-
-
-LaTeX Warning: Citation `reisinger2010' on page 3 undefined on input line 158.
-
-
-LaTeX Warning: Citation `wang2009' on page 3 undefined on input line 158.
-
-
-LaTeX Warning: Citation `doyle2009' on page 3 undefined on input line 158.
-
-
-LaTeX Warning: Citation `lda2003' on page 3 undefined on input line 168.
-
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 180.
+ <./images/gridworld_barebone.png>]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 69.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 236--237
-
+)
+Underfull \hbox (badness 3492) in paragraph at lines 69--70
+[]\OT1/ptm/m/n/10 Each in-ter-sec-tion server is es-sen-tially a fi-nite state
  []
 
 
-LaTeX Warning: Citation `selim1984' on page 4 undefined on input line 244.
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+\OT1/pcr/m/n/10 VERTICAL_LEFT\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 HORIZONTAL_STRAI
+GHT\OT1/ptm/m/n/10 , and
+ []
 
+<images/intersection_states.png, id=11, 164.615pt x 332.24126pt>
+File: images/intersection_states.png Graphic file (type png)
 
-LaTeX Warning: Reference `dendrogram' on page 4 undefined on input line 257.
-
-
-LaTeX Warning: Reference `TPC_algorithm' on page 4 undefined on input line 290.
-
-
-
-LaTeX Warning: Reference `tcg' on page 4 undefined on input line 292.
-
-[4]
-
-LaTeX Warning: Reference `tcg' on page 5 undefined on input line 294.
-
-
-LaTeX Warning: Reference `TPC_algorithm' on page 5 undefined on input line 296.
-
+<use images/intersection_states.png>
+Package pdftex.def Info: images/intersection_states.png used on input line 73.
+(pdftex.def)             Requested size: 129.0pt x 260.36383pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: Reference `spy' on page 5 undefined on input line 344.
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+ []
 
 
-LaTeX Warning: Reference `vocabs' on page 5 undefined on input line 344.
-
-[5]
-
-LaTeX Warning: Reference `tcg' on page 6 undefined on input line 376.
-
-
-LaTeX Warning: Reference `hac_gamma' on page 6 undefined on input line 382.
+Underfull \hbox (badness 1558) in paragraph at lines 83--84
+\OT1/ptm/b/it/10 Problem Def-i-ni-tion: \OT1/ptm/m/it/10 Given any grid con-fig
+-u-ra-tions and
+ []
 
 
-LaTeX Warning: Citation `viterbi' on page 6 undefined on input line 463.
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
+
+ []
 
 
-LaTeX Warning: Citation `blei2006' on page 6 undefined on input line 465.
+Underfull \hbox (badness 10000) in paragraph at lines 85--86
 
-[6]
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 89.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 89.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [2 <./images/intersection_states.png>]
+Underfull \hbox (badness 5388) in paragraph at lines 112--113
+\OT1/ptm/m/n/10 a re-quest to the in-ter-sec-tion server for each move,
+ []
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 112--113
+\OT1/ptm/m/n/10 and waits un-til the re-quest is granted by the server.
+ []
+
+<images/dummy_state.png, id=17, 395.4775pt x 422.57875pt>
+File: images/dummy_state.png Graphic file (type png)
+
+<use images/dummy_state.png>
+Package pdftex.def Info: images/dummy_state.png used on input line 165.
+(pdftex.def)             Requested size: 129.0pt x 137.8394pt.
+
+<images/direction.png, id=18, 250.9375pt x 265.99374pt>
+File: images/direction.png Graphic file (type png)
+
+<use images/direction.png>
+Package pdftex.def Info: images/direction.png used on input line 172.
+(pdftex.def)             Requested size: 103.19843pt x 109.39095pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/wqs_decision.png, id=19, 456.70625pt x 512.91624pt>
+File: images/wqs_decision.png Graphic file (type png)
+
+<use images/wqs_decision.png>
+Package pdftex.def Info: images/wqs_decision.png used on input line 185.
+(pdftex.def)             Requested size: 154.80157pt x 173.84918pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/wqs_state.png, id=20, 443.6575pt x 600.2425pt>
+File: images/wqs_state.png Graphic file (type png)
+
+<use images/wqs_state.png>
+Package pdftex.def Info: images/wqs_state.png used on input line 192.
+(pdftex.def)             Requested size: 129.0pt x 174.5238pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3 <./images/dummy_state.png>]
+<images/simulation_duration.png, id=24, 557.08125pt x 306.14375pt>
+File: images/simulation_duration.png Graphic file (type png)
+
+<use images/simulation_duration.png>
+Package pdftex.def Info: images/simulation_duration.png used on input line 214.
+
+(pdftex.def)             Requested size: 258.0pt x 141.78546pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 214--215
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 2088) in paragraph at lines 222--223
+\OT1/ptm/m/n/10 weightedQ-switcher ac-tu-ally man-aged to out-per-form the
+ []
+
+<images/intersection_load.png, id=25, 946.53625pt x 687.56876pt>
+File: images/intersection_load.png Graphic file (type png)
+
+<use images/intersection_load.png>
+Package pdftex.def Info: images/intersection_load.png used on input line 227.
+(pdftex.def)             Requested size: 258.0pt x 187.4086pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 227--228
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <./images/direction.png> <./images/wqs_decision.png> <./images/wqs_state.png
+> <./images/simulation_duration.png>]
+<images/vehicle_motion.png, id=29, 952.55875pt x 669.50125pt>
+File: images/vehicle_motion.png Graphic file (type png)
+
+<use images/vehicle_motion.png>
+Package pdftex.def Info: images/vehicle_motion.png used on input line 240.
+(pdftex.def)             Requested size: 258.0pt x 181.32962pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 240--241
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -615,46 +657,35 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7] (./report.aux)
+[5 <./images/intersection_load.png> <./images/vehicle_motion.png>]
+(./report.aux)
 
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
  )
 (\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 30 (\begingroup)
+### semi simple group (level 1) entered at line 36 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 6434 strings out of 493315
- 96526 string characters out of 6137904
- 192121 words of memory out of 5000000
- 9786 multiletter control sequences out of 15000+600000
- 38333 words of font info for 77 fonts, out of 8000000 for 9000
+ 6533 strings out of 493315
+ 98476 string characters out of 6137904
+ 190408 words of memory out of 5000000
+ 9873 multiletter control sequences out of 15000+600000
+ 37424 words of font info for 74 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,12n,42p,1053b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,14n,42p,1037b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc
-}</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/tex
-mf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/f
-onts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1
-/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 185327 bytes).
+}</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fo
+nts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (5 pages, 306898 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 54 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -11,26 +11,248 @@
 \usepackage[font=footnotesize]{subfig}
 \usepackage{fixltx2e}
 \usepackage{setspace}
-\usepackage{algorithm2e}
+\usepackage[ruled,vlined,commentsnumbered]{algorithm2e}
 \usepackage{amssymb}
+\usepackage{amsthm}
 
+\newtheorem{thm}{Theorem}
 
 
 \begin{document}
 
-\title{\large{CS388 NLP Project Report}\\ \huge{Text Mining for Hidden Relations and Trending}}
+\title{A Distributed Algorithm for Minimizing Travel Time in Traffic Grids}
 
-\author{\IEEEauthorblockN{C. Vic Hu}
+\author{\IEEEauthorblockN{Chinwei ``Vic'' Hu}
+\IEEEauthorblockA{Department of Electrical and Computer Engineering}
+\IEEEauthorblockA{The University of Texas at Austin}
 \IEEEauthorblockA{vic@cvhu.org}
 \and
-\IEEEauthorblockN{Ali Unwala}
-\IEEEauthorblockA{aliunwala@gmail.com}
+\IEEEauthorblockN{Saddam Quirrem}
+\IEEEauthorblockA{Department of Electrical and Computer Engineering}
+\IEEEauthorblockA{The University of Texas at Austin}
+\IEEEauthorblockA{s\_quirrem@hotmail.com}
 }
 \maketitle
 \onehalfspace
 \begin{abstract}
-robotics spanning over 30 years.
+Modern traffic control systems often loop through a set of basic states, with little or no regard to the real-time traffic conditions and communications with neighboring systems. In this paper, we proposed a distributed algorithm, LAWQS, to design a communicative network of traffic management systems that are self-adaptive to real-time incoming traffic. We implemented a simulation framework to compare our algorithm against the traditional traffic light protocol, and was able to show a promising improvements in both vehicle traveling times and intersection traffic loads.
 \end{abstract}
+
+\section{Introdution}
+
+The average commute time in the United States is 25.4 minutes \cite{}, and 80\% of workers drive to work everyday. In 2011 along, American drivers spend 5.5 billion productive hours sitting in the traffic, costing the nation \$121 billion dollars \cite{}. 
+
+Our current traffic infrastructure has been used for over a century, which wasn?t designed for the amount of traffic in the modern society. Most of the traffic lights and stop signs on the intersections today still use an inadaptable and synchronous architecture that waste a ton of unused time and space on the roads. Looking at the core concepts developed in communication networks, computer architecture, and distributed computing, many technologies such as virtual memory, pipelining, and network routing, are trying to solve very similar problems we are facing on the roads everyday. By introducing a few straightforward but yet powerful concepts, we wish to expand academia interests to solve these persisting problems in our current traffic control system.
+
+In this paper, we introduced a simulation framework to model and simplify the sophisticated traffic systems, a set of measuring criteria to make quantitative analysis, a benchmark DUMMY algorithm, a Look-Ahead algorithm, a WeightedQ-Switcher algorithm, and a combination of these two algorithms. The rest of this paper is organized as following: section 2 covers the basic backgrounds, terminology, and notations; section 3 introduces the main algorithms; section 4 presents the experiment results, comparison analysis and discussions on our algorithms; section 5 makes the conclusion.
+
+
+\section{Background}
+In this section, we will cover how the sophisticated traffic systems with a large degrees of uncertainty can be simplified and represented in a GridWorld model. Furthermore, we will formalize the problem we are trying to solve, go over some intuitions behind our solutions, and make clear definitions about the notations we will be using.
+
+\subsection{The GridWorld Model}
+There are a great variation of possible configurations and protocols used in the real-world traffic systems. In our study, we only consider a two-lane, four-way configuration with all intersections perfectly aligned in a m-by-n GridWorld, as shown in Fig.~\ref{gridworld_barebone}
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.25\textwidth]{images/gridworld_barebone.png}
+	\caption{a 4-by-4 GridWorld model}
+	\label{gridworld_barebone}
+\end{figure}
+
+
+The intersections are modeled as a distributed system organized on a grid. We assume that each incoming vehicle is equipped with a communicating device such as a smartphone or a BlueTooth beacon, that is able to send requests to the upcoming intersection, and notify the driver when requests are granted. We also assume that there is an application server installed at each intersection on the grid, which can communicate with its neighboring peers and respond to vehicles that have sent requests to it.
+
+For instance, intersection at (0,0) refers to the southwestern corner of the grid, and intersection (n-1,m-1) refers to the northeastern corner of the grid. Each intersection acts as an independent node and has a direct two-way communication channel with its four neighboring intersections. This means intersection (x,y) can send and receive messages from intersections (x-1,y), (x+1,y), (x,y-1), and (x,y+1) if they exist in the grid. Each intersection server maintains four queues of vehicles (clients), and allows the head of each of these queues to pass if its requested direction matches the current state of the intersection server. The clients themselves perform two simple task. First they send a request to the facing intersection and wait until their request is acknowledge by an intersection server. When acknowledged, the vehicle client moves on to the next intersection, and continues until it reaches its destination.
+
+\subsection{The Intersection/Vehicle Architecture}
+Each intersection server is essentially a finite state machine consisting of four states: \texttt{VERTICAL\_STRAIGHT}, \texttt{VERTICAL\_LEFT}, \texttt{HORIZONTAL\_STRAIGHT}, and \texttt{HORIZONTAL\_LEFT}, as shown in FIg.~\ref{intersection_states} \texttt{VERTICAL\_*} states handle requests coming from the north and south directions, while \texttt{HORIZONTAL\_*} states handle those from west and east. A request going straight and right is granted at \texttt{*\_STRAIGHT} states, while a left-turn request are granted at \texttt{*\_LEFT} states.
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.25\textwidth]{images/intersection_states.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+Each vehicle is assigned with a final destination and starting position, both of which are represented as an intersection on the grid. At each intersection, a vehicle can either take left, right, or go straight. There are two different kinds of vehicles. Ones that have a predetermined route to take, and ones that only specify the final destination and don?t care about the path. Note that the former can be easily mapped as a sequence of immediate short-term destinations, each spaced one block apart. Thus, the request protocol can be simply represented as the desired current destination node.
+
+\subsection{Problem Definition and Requirements}
+Now that we have a clearly defined framework and a simplified model of our system, let?s revisit the problem and the requirements we are trying to achieve. In general, we want an algorithm that is distributed, scalable, flexible, adaptive, and secure; a system that can be reasonably integratable to our existing infrastructure. \\
+
+\noindent  {\it \textbf{Problem Definition:} Given any grid configurations and vehicle routes, come up with a distributed algorithm to minimize time spent travelling and to even out intersection loads.}\\
+
+In the real-world application, each vehicle ultimately only cares about how fast it can reach from the starting position to the final destination. In that regard, it?s obvious that everyone with the same destination is going to take the same optimal routes, creating high chance of gridlocks and leaving the rest of the grids unused. Therefore, we introduce a second objective function to even out the intersection loads to speed up the learning process.\\
+
+\noindent {\bf Requirements:}
+\begin{itemize}
+\item {\bf Distributivity} To make the system architecture infinitely scalable, the algorithm should only communicate and utilize information of its own node and the neighboring nodes.
+\item {\bf Safety} No conflicting traffic should be granted access to the intersection at anytime, any node.
+\item {\bf Liveness} All requests should be granted within finite time.
+\item {\bf Fairness} First come, first serve.
+\end{itemize}
+\-\\
+Similar to traditional distributed algorithms, these four fundamental requirements will be used to examine the correctness of our algorithms in the next section.
+
+
+\section{Algorithms}
+In this section, we introduce four algorithms to be tested in our simulation framework: Dummy, Look-Ahead (LA), WeightedQ-Switcher (WQS), and LA-WQS.
+
+\subsection{Intuitions}
+The Dummy algorithm represents the benchmark, which resembles the conventional traffic lights we see everyday on the street. It loops through a set of predefined states regardless of the real-time traffic. We use it as the baseline algorithm to demonstrate the effectiveness of our proposed ones.
+The Look-Ahead (LA) algorithm makes suggestions to incoming vehicles on the optimal action based on its neighborhood conditions. The vehicle only sends its desired final destination; the intersection server evaluates all the candidate immediate actions and responds to the request with the suggested action.
+
+The WeightedQ-Switcher (WQS) algorithm makes decisions on state transition based on the weights of request queues. Each request sitting in the queue keeps a counter to represent how long it?s been waiting, and the sum of those counter values in a queue is the weight. When the intersection finishes a state operation, it picks the next state with the largest sum of weights.
+
+Finally, the LA-WQS algorithm is simply a combination of both LA and WQS.
+
+\subsection{ Algorithms for Vehicles}
+There are two different kinds of vehicles: a PathVehicle that predetermines the route to take, and a DestVehicle that only specify the final destinations. 
+
+As shown in Algorithm.~\ref{path_vehicle}, the vehicle simply sends a request to the intersection server for each move, and waits until the request is granted by the server. When the request is granted, the server process calls the \texttt{receiveRequestOkay(nextPos)} function of the vehicle with the suggested next move, in which the vehicle moves on and continues the traversing procedure.
+
+\begin{algorithm}
+  \KwData{Start position and final destination}
+  \KwResult{Computes the destinationQueue and traverses through the path.}
+  init destQ = generatePath(start, finalDest)\;
+  init currentPos = start\;
+  init currentDest = destQ.pop()\;
+  \While{currentDest != null}{
+  	sendRequest(currentPos)\;
+	wait()\;
+  }
+  
+\SetKwFunction{receiveRequestOkay}{receiveRequestOkay}
+\SetKwProg{myproc}{Function}{}{}
+
+\myproc{\receiveRequestOkay{nextPos}}{
+  	Moves the vehicle to nextPos\;
+	\If{currentDest == currentPos}{
+		\If{destQ is not empty}{
+			currentDest = destQ.pop()\;
+		}
+		\Else{
+			currentDest = null\;
+		}
+	}
+	notify()\;
+ }
+
+  
+\SetKwFunction{generatePath}{generatePath}
+
+\myproc{\generatePath{start, finalDest}}{
+  init destQueue\;
+  currentPos = start\;
+  \While{currentPos != finalDestination}{
+  	currentPos = randomWalk(currentPos, finalDest)\;
+	destQueue.push(currentPos)\;
+  }
+  \KwRet destQueue\;
+ }
+  \caption{PathVehicle \label{path_vehicle}}
+\end{algorithm}
+
+The DestVehicle employs a very similar model, except that there is no \texttt{generatePath} procedure anymore and \texttt{destQ} only contains the final destination.
+
+
+\subsection{ Algorithms for Intersections}
+
+
+
+\subsubsection{ Dummy Algorithm}
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.25\textwidth]{images/dummy_state.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.2\textwidth]{images/direction.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+
+
+\subsubsection{ Look-Ahead (LA) Algorithm}
+
+\subsubsection{ WeightedQ-Switcher (WQS) Algorithm}
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.3\textwidth]{images/wqs_decision.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.25\textwidth]{images/wqs_state.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+
+\subsubsection{ LA-WQS Algorithm}
+
+\subsection{Correctness Analysis}
+
+\subsection{ Complexity Analysis}
+
+
+\section{Experiments}
+\subsection{Testing Methodology}
+The average velocity, measured as the number of nodes traveled divided by the time taken for a vehicle to reach its destination, is used to compare the performance of each algorithm. The algorithms will be tested with various grid size and the number of vehicles. A higher average velocity is would indicate a higher throughput.
+
+\subsection{Results and Discussion}
+The results show that making use of a distributed algorithm will result in a more even distribution of vehicles across the grid and greater throughput. Some basic runtime analysis was performed on four algorithms with grid sizes ranging from 4x4 to 8x8 and either 256 or 512 vehicles.
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.5\textwidth]{images/simulation_duration.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+
+These results cannot be used to evaluate the throughput based on the size of the grid, because much of the runtime is taken up by a few vehicles which have fallen behind. However, what can be taken from these results is which algorithms will generally outperform the other. From these results we can see that the top performing algorithms are Lookahead, LA-WQS, Dummy, and WeightedQ-Switcher. It seems that, contrary to what was initially believed, switching states based on the ?weights? of the lanes is not beneficial. The explanation for this is that if the intersection server spends it time servicing only one lane, then the other three lanes will eventually get clogged. This creates a cycle where the intersection server would keep serving heavier lanes of increasing weight until no more vehicles are coming in.
+
+The combination of the lookahead algorithm and the weightedQ-switcher actually managed to outperform the dummy algorithm. This shows that just by adding a distributed algorithm to a slower non-distributed algorithm, we were able to outperform the simplest implementation. An analysis of the workload shows how traits of our WQS and LA algorithm were inherited by the LA-WQS algorithm.
+
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.5\textwidth]{images/intersection_load.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+
+The above figures are histograms displaying the number servers in each workload bucket, where each bucket is identified by how many vehicles pass through each server. An ideal algorithm would have a normal distribution for the server load with as small a standard deviation as possible. The lookahead algorithm shows a somewhat normal distribution, and this trait is inherited by the LA-WQS algorithm?s distribution. On the other hand, using the dummy algorithm resulted in a greater number of servers taking on much higher loads. The WQS algorithm seems to underutilize many server.
+
+The motion of the vehicles provides the overall throughput of the system. The vehicles rate of motion is calculated as the average number of logical clock cycles it takes to move to a single intersection. A lower number of logical clock cycles per move would be indicative of a higher throughput. The four algorithms were tested with the same configuration to extract the server workload data used to extract the vehicle motion data.
+
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.5\textwidth]{images/vehicle_motion.png}
+	\caption{the four intersection states}
+	\label{intersection_states}
+\end{figure}
+
+
+The distributions which were more skewed to the left (less counts/move) had a higher throughput. The two lookahead algorithms had the highest throughput and were the most skewed leftward. The WQS algorithm had very poor throughput and is shown to have only held back the vehicles.
+
+\section{Conclusion}
+The use of a distributed algorithm has greatly increased both throughput and balance in the server load. The lookahead algorithm not only outperformed the other algorithm, but its addition to the slowest non-distributed algorithm resulted in it becoming the second best performing algorithm. What this shows is that it is not enough to vehicles to their next intersection as quickly as possible and that the workload must be balanced across the grid. The lookahead algorithms had the most balanced workloads, as evidenced by the normal distribution of their workloads.
+
+The lookahead algorithm only has an intersection server send a query to its immediate neighbors. It is likely that by query even further for the shortest path would normalize the server workload even further, but at the cost of greater message complexity. Implementing Dijkstra?s algorithm for finding the shortest path could prove costly for larger grids. However, there could be some ideal level of broadcast-convergecast messages that could used depending on the size of the grid.
+
+\section{Future Improvements}
 
 %Motivate and abstractly describe the problem you are addressing and how you are addressing it. What is the problem? Why is it important? What is your basic approach? A short discussion of how it fits into related work in the area is also desirable. Summarize the basic results and conclusions that you will present. 
 %\section{Introduction}

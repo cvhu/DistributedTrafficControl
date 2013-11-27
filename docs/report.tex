@@ -217,44 +217,100 @@ In Fig.~\ref{la_example}, a vehicle from the bottom right intersection is trying
 \end{figure}
 
 \begin{algorithm}
-  \KwData{Four requestQueues for each traffic direction.}
-  \KwResult{Grants requests based on the current state.}
-  init requestsQMap as a hash map of request queues with direction as keys\;
-  init FSM as the finite state machine defined in Fig.~\ref{dummy_state}\;
-  \While{running} {
-  	currentState = getState(FSM)\;
-	\For{requestsQ in legal queues of currentState}{
-		frontRequest = requestsQ.peek()\;
-		\If{frontRequest is legal}{
-			grant frontRequest \;
-			requestsQ.pop()\;
+  Everything is the same as in Algorithm.~\ref{dummy}, except that when granting a request, the server makes action recommendation based on the following procedure:
+  
+\SetKwFunction{getOptimalAction}{getOptimalAction}
+\SetKwProg{myproc}{Function}{}{}
+\myproc{\getOptimalAction{destination}}{
+	init minSize = -$\infty$\;
+	init actionOptimal = null\;
+  	\For{action in candidateActions}{
+		\If{queue size with action < minSize}{
+			minSize = queue.size()\;
+			actionOpt = action\;
 		}
 	}
-  }
+	\KwRet actionOpt\;
+ }
   \caption{Look-Ahead (LA) \label{look_ahead}}
 \end{algorithm}
 
+The concepts behind Look-Ahead is very similar to Dijkstra's shortest path with horizontal of size one, and is fairly simple to implement. For each request, there are one request message, two to four look-ahead messages, and one response message. In practice, the neighboring queue size data could be cached in the current intersection server, and updates could be accomplished by a publisher/subscriber paradigm. In such cases, the message complexity can be reduced down to size two, which is the same as in Dummy.
 
-\subsubsection{ WeightedQ-Switcher (WQS) Algorithm}
+One of the biggest disadvantage in both Dummy and Look-Ahead is that they both utilizes static state transitions, which wastes a lot of unused cycles and resources as in most synchronous systems. Next, we will talk about how the WeightedQ-Switcher algorithm addresses exactly this problem.
 
-\begin{figure}[h]
-    \center    
-    \includegraphics[width=0.3\textwidth]{images/wqs_decision.png}
-	\caption{the four intersection states}
-	\label{intersection_states}
-\end{figure}
+\subsubsection{WeightedQ-Switcher (WQS) Algorithm}
+
+In our analysis for the Dummy and Look-Ahead algorithms, we discussed how a hard-coded state machine suffers from wasted resources and computation cycles, which could be resolved by designing an adaptive system that makes state transition decisions based on the real-time traffic. In this section, we propose the WeightedQ-Switcher algorithm to give a simple example on how that could be done in practice.
+
+As shown in Fig.~\ref{wqs_state}, the state machine presented in Fig.~\ref{dummy_state} is separated into a dynamic, two-state machine. The new \texttt{VERTICAL} state consists of both \texttt{VERTICAL\_STRAIGHT} and \texttt{VERTICAL\_LEFT}, which takes care of the traffic from north and south before either switching to \texttt{HORIZONTAL} or staying in \texttt{VERTICAL}, and similarly for the transitions in \texttt{HORIZONTAL}.
 
 \begin{figure}[h]
     \center    
     \includegraphics[width=0.25\textwidth]{images/wqs_state.png}
-	\caption{the four intersection states}
-	\label{intersection_states}
+	\caption{A dynamic state machine of WQS}
+	\label{wqs_state}
 \end{figure}
+
+In Fig.~\ref{wqs_decision}, we see how WQS decides which state to go next based on \texttt{w(VRTL)}, the weights of vertical queues, and \texttt{w(HRZL)}, the weights of horizontal queues. Note that if we naively define queue weights as the total number of requests, we may easily run into cases where requests sitting in certain queues are never processed, and hence suffer from starvation. Therefore, we incorporate a counter parameter for each waiting elements in queues, which represents how many rounds it's been waiting for the server process. 
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.3\textwidth]{images/wqs_decision.png}
+	\caption{State transitions in WQS is now based on the queue weights.}
+	\label{wqs_decision}
+\end{figure}
+
+More details on this procedure are specified in Algorithm.~\ref{wqs}, in which we omitted parts that are duplicated from previous algorithms.
+
+\begin{algorithm}
+  Everything is the same as in Algorithm.~\ref{dummy}, except that when transitioning to the next state, the intersection server calls the following procedure:
+  
+\SetKwFunction{getNextWQSState}{getNextWQSState}
+\SetKwProg{myproc}{Function}{}{}
+\myproc{\getNextWQSState{}}{
+	init nextState = null\;
+	init weightVertical = getWeight(north) + getWeight(south)\;
+	init weightHorizontal = getWeight(east) + getWeight(west)\;
+	\If{weightVertical > weightHorizontal}{
+		nextState = VERTICAL\;
+	}
+	\ElseIf{weightVertical < weightHorizontal}{
+		nextState = HORIZONTAL\;
+	}
+	\Else {
+		nextState = random(VERTICAL, HORIZONTAL)\;
+	}
+	\KwRet nextState\;
+ }
+ 
+ \SetKwFunction{getWeight}{getWeight}
+\SetKwProg{myproc}{Function}{}{}
+\myproc{\getWeight{direction}}{
+	init weight = 0\;
+	\For{request in requestsQMap.get(direction}{
+		weight += request.getCounter()\;
+	}
+	\KwRet weight\;
+ }
+ 
+  \caption{WeightedQ-Switcher (WQS) \label{wqs}}
+\end{algorithm}
+
+In the real-world analogy, we can think of WQS as a mean to allow queues that are large and have been waiting longer than others to pass with privilege. On the other hand, if there is no traffic on the other direction, one would never have to stop unnecessarily.
 
 
 \subsubsection{ LA-WQS Algorithm}
+As the name suggests, LA-WQS is a combination of both the afore-mentioned Look-Ahead and WeightedQ-Switcher algorithms.
 
 \subsection{Correctness Analysis}
+
+\begin{itemize}
+\item {\bf Distributivity} To make the system architecture infinitely scalable, the algorithm should only communicate and utilize information of its own node and the neighboring nodes.
+\item {\bf Safety} No conflicting traffic should be granted access to the intersection at anytime, any node.
+\item {\bf Liveness} All requests should be granted within finite time.
+\item {\bf Fairness} First come, first serve.
+\end{itemize}
 
 \subsection{ Complexity Analysis}
 
@@ -308,6 +364,27 @@ The use of a distributed algorithm has greatly increased both throughput and bal
 The lookahead algorithm only has an intersection server send a query to its immediate neighbors. It is likely that by query even further for the shortest path would normalize the server workload even further, but at the cost of greater message complexity. Implementing Dijkstra?s algorithm for finding the shortest path could prove costly for larger grids. However, there could be some ideal level of broadcast-convergecast messages that could used depending on the size of the grid.
 
 \section{Future Improvements}
+
+\section{Acknowledgements}
+
+\begin{thebibliography}{1}
+
+\bibitem
+US Census
+
+\bibitem
+TAMU paper
+
+\bibitem
+Candadian paper
+
+\bibitem{Dijkstra}
+Dijkstra's shortest path
+
+\bibitem{viterbi}
+Forney Jr, G. D. (1973). The viterbi algorithm. Proceedings of the IEEE, 61(3), 268-278.
+
+\end{thebibliography}
 
 %Motivate and abstractly describe the problem you are addressing and how you are addressing it. What is the problem? Why is it important? What is your basic approach? A short discussion of how it fits into related work in the area is also desirable. Summarize the basic results and conclusions that you will present. 
 %\section{Introduction}

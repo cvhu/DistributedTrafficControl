@@ -235,7 +235,7 @@ In Fig.~\ref{la_example}, a vehicle from the bottom right intersection is trying
   \caption{Look-Ahead (LA) \label{look_ahead}}
 \end{algorithm}
 
-The concepts behind Look-Ahead is very similar to Dijkstra's shortest path with horizontal of size one, and is fairly simple to implement. For each request, there are one request message, two to four look-ahead messages, and one response message. In practice, the neighboring queue size data could be cached in the current intersection server, and updates could be accomplished by a publisher/subscriber paradigm. In such cases, the message complexity can be reduced down to size two, which is the same as in Dummy.
+The concepts behind Look-Ahead is very similar to Dijkstra's shortest path \cite{dijkstra} with horizontal of size one, and is fairly simple to implement. For each request, there are one request message, two to four look-ahead messages, and one response message. In practice, the neighboring queue size data could be cached in the current intersection server, and updates could be accomplished by a publisher/subscriber paradigm. In such cases, the message complexity can be reduced down to size two, which is the same as in Dummy.
 
 One of the biggest disadvantage in both Dummy and Look-Ahead is that they both utilizes static state transitions, which wastes a lot of unused cycles and resources as in most synchronous systems. Next, we will talk about how the WeightedQ-Switcher algorithm addresses exactly this problem.
 
@@ -399,17 +399,8 @@ http://project.wnyc.org/commute-times-us/embed.html
 \bibitem{commuting_expense}
 http://thinkprogress.org/economy/2013/02/05/1540981/commuters-billions-hours-traffic
 
-\bibitem
-TAMU paper
-
-\bibitem
-Candadian paper
-
-\bibitem{Dijkstra}
-Dijkstra's shortest path
-
-\bibitem{viterbi}
-Forney Jr, G. D. (1973). The viterbi algorithm. Proceedings of the IEEE, 61(3), 268-278.
+\bibitem{dijkstra}
+Johnson, Donald B. "A note on Dijkstra's shortest path algorithm." Journal of the ACM (JACM) 20.3 (1973): 385-388.
 
 \end{thebibliography}
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 21:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 22:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -382,17 +382,7 @@ Package: amsthm 2004/08/06 v2.20
 \dth@everypar=\toks29
 )
 \c@thm=\count124
- (./report.aux
-
-LaTeX Warning: Label `intersection_states' multiply defined.
-
-
-LaTeX Warning: Label `intersection_states' multiply defined.
-
-
-LaTeX Warning: Label `intersection_states' multiply defined.
-
-)
+ (./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -407,7 +397,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
- (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count125
 \scratchdimen=\dimen153
@@ -586,44 +576,56 @@ Package pdftex.def Info: images/wqs_decision.png used on input line 259.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [5 <./images/wqs_state.png> <./images/wqs_decision.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 324--325
+[]\OT1/ptm/m/n/10 Intersections do not
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 328--329
+[]\OT1/ptm/m/n/10 Intersections do not
+ []
+
 <images/simulation_duration.png, id=32, 557.08125pt x 306.14375pt>
 File: images/simulation_duration.png Graphic file (type png)
 
 <use images/simulation_duration.png>
-Package pdftex.def Info: images/simulation_duration.png used on input line 327.
+Package pdftex.def Info: images/simulation_duration.png used on input line 344.
 
-(pdftex.def)             Requested size: 258.0pt x 141.78546pt.
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 327--328
- [] 
- []
-
-
-Underfull \hbox (badness 2088) in paragraph at lines 335--336
-\OT1/ptm/m/n/10 weightedQ-switcher ac-tu-ally man-aged to out-per-form the
- []
+(pdftex.def)             Requested size: 232.19843pt x 127.60316pt.
 
 <images/intersection_load.png, id=33, 946.53625pt x 687.56876pt>
 File: images/intersection_load.png Graphic file (type png)
 
 <use images/intersection_load.png>
-Package pdftex.def Info: images/intersection_load.png used on input line 340.
+Package pdftex.def Info: images/intersection_load.png used on input line 359.
 (pdftex.def)             Requested size: 258.0pt x 187.4086pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 340--341
+Overfull \hbox (6.0pt too wide) in paragraph at lines 359--360
  [] 
  []
 
-[6 <./images/simulation_duration.png> <./images/intersection_load.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6 <./images/simulation_duration.png>]
 <images/vehicle_motion.png, id=37, 952.55875pt x 669.50125pt>
 File: images/vehicle_motion.png Graphic file (type png)
 
 <use images/vehicle_motion.png>
-Package pdftex.def Info: images/vehicle_motion.png used on input line 353.
+Package pdftex.def Info: images/vehicle_motion.png used on input line 373.
 (pdftex.def)             Requested size: 258.0pt x 181.32962pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 353--354
+Overfull \hbox (6.0pt too wide) in paragraph at lines 373--374
  [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7 <./images/intersection_load.png> <./images/vehicle_motion.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
+[]\OT1/ptm/m/n/8 http://thinkprogress.org/economy/2013/02/05/1540981/commuters-
+
  []
 
 
@@ -637,23 +639,21 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7 <./images/vehicle_motion.png>] (./report.aux)
+[8
 
-LaTeX Warning: There were multiply-defined labels.
-
- )
+] (./report.aux) )
 (\end occurred inside a group at level 1)
 
 ### semi simple group (level 1) entered at line 36 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 6557 strings out of 493315
- 98789 string characters out of 6137904
- 190488 words of memory out of 5000000
- 9896 multiletter control sequences out of 15000+600000
+ 6568 strings out of 493315
+ 98967 string characters out of 6137904
+ 191479 words of memory out of 5000000
+ 9907 multiletter control sequences out of 15000+600000
  37424 words of font info for 74 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,14n,42p,1037b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,14n,42p,944b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc
 }</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></
@@ -662,10 +662,10 @@ l/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/
 2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/texm
 f-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 335664 bytes).
+Output written on report.pdf (8 pages, 337819 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 70 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

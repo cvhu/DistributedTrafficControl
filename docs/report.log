@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 18:49
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 NOV 2013 19:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -384,10 +384,7 @@ Package: amsthm 2004/08/06 v2.20
 \c@thm=\count124
  (./report.aux
 
-LaTeX Warning: Label `intersection_states' multiply defined.
-
-
-LaTeX Warning: Label `intersection_states' multiply defined.
+LaTeX Warning: Label `path_vehicle' multiply defined.
 
 
 LaTeX Warning: Label `intersection_states' multiply defined.
@@ -558,53 +555,57 @@ Underfull \hbox (badness 2698) in paragraph at lines 112--113
 \OT1/ptm/m/n/10 and waits un-til the re-quest is granted by the server.
  []
 
-<images/dummy_state.png, id=17, 395.4775pt x 422.57875pt>
+[3] <images/dummy_state.png, id=20, 395.4775pt x 422.57875pt>
 File: images/dummy_state.png Graphic file (type png)
 
 <use images/dummy_state.png>
-Package pdftex.def Info: images/dummy_state.png used on input line 165.
+Package pdftex.def Info: images/dummy_state.png used on input line 171.
 (pdftex.def)             Requested size: 129.0pt x 137.8394pt.
 
-<images/direction.png, id=18, 250.9375pt x 265.99374pt>
+<images/direction.png, id=21, 250.9375pt x 265.99374pt>
 File: images/direction.png Graphic file (type png)
 
 <use images/direction.png>
-Package pdftex.def Info: images/direction.png used on input line 172.
+Package pdftex.def Info: images/direction.png used on input line 178.
 (pdftex.def)             Requested size: 103.19843pt x 109.39095pt.
 
+<images/la_example.png, id=22, 355.3275pt x 265.99374pt>
+File: images/la_example.png Graphic file (type png)
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+<use images/la_example.png>
+Package pdftex.def Info: images/la_example.png used on input line 214.
+(pdftex.def)             Requested size: 129.0pt x 96.56941pt.
 
-<images/wqs_decision.png, id=19, 456.70625pt x 512.91624pt>
+<images/wqs_decision.png, id=23, 456.70625pt x 512.91624pt>
 File: images/wqs_decision.png Graphic file (type png)
 
 <use images/wqs_decision.png>
-Package pdftex.def Info: images/wqs_decision.png used on input line 185.
+Package pdftex.def Info: images/wqs_decision.png used on input line 242.
 (pdftex.def)             Requested size: 154.80157pt x 173.84918pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/wqs_state.png, id=20, 443.6575pt x 600.2425pt>
+<images/wqs_state.png, id=24, 443.6575pt x 600.2425pt>
 File: images/wqs_state.png Graphic file (type png)
 
 <use images/wqs_state.png>
-Package pdftex.def Info: images/wqs_state.png used on input line 192.
+Package pdftex.def Info: images/wqs_state.png used on input line 249.
 (pdftex.def)             Requested size: 129.0pt x 174.5238pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3 <./images/dummy_state.png>]
-<images/simulation_duration.png, id=24, 557.08125pt x 306.14375pt>
+[4 <./images/dummy_state.png> <./images/direction.png> <./images/la_example.png
+>] <images/simulation_duration.png, id=28, 557.08125pt x 306.14375pt>
 File: images/simulation_duration.png Graphic file (type png)
 
 <use images/simulation_duration.png>
-Package pdftex.def Info: images/simulation_duration.png used on input line 214.
+Package pdftex.def Info: images/simulation_duration.png used on input line 271.
 
 (pdftex.def)             Requested size: 258.0pt x 141.78546pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 214--215
+Overfull \hbox (6.0pt too wide) in paragraph at lines 271--272
  [] 
  []
 
@@ -612,39 +613,33 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 214--215
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 2088) in paragraph at lines 222--223
+Underfull \hbox (badness 2088) in paragraph at lines 279--280
 \OT1/ptm/m/n/10 weightedQ-switcher ac-tu-ally man-aged to out-per-form the
  []
 
-<images/intersection_load.png, id=25, 946.53625pt x 687.56876pt>
+<images/intersection_load.png, id=29, 946.53625pt x 687.56876pt>
 File: images/intersection_load.png Graphic file (type png)
 
 <use images/intersection_load.png>
-Package pdftex.def Info: images/intersection_load.png used on input line 227.
+Package pdftex.def Info: images/intersection_load.png used on input line 284.
 (pdftex.def)             Requested size: 258.0pt x 187.4086pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 227--228
+Overfull \hbox (6.0pt too wide) in paragraph at lines 284--285
  [] 
  []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4 <./images/direction.png> <./images/wqs_decision.png> <./images/wqs_state.png
-> <./images/simulation_duration.png>]
-<images/vehicle_motion.png, id=29, 952.55875pt x 669.50125pt>
+[5 <./images/wqs_decision.png> <./images/wqs_state.png> <./images/simulation_du
+ration.png> <./images/intersection_load.png>]
+<images/vehicle_motion.png, id=33, 952.55875pt x 669.50125pt>
 File: images/vehicle_motion.png Graphic file (type png)
 
 <use images/vehicle_motion.png>
-Package pdftex.def Info: images/vehicle_motion.png used on input line 240.
+Package pdftex.def Info: images/vehicle_motion.png used on input line 297.
 (pdftex.def)             Requested size: 258.0pt x 181.32962pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 240--241
+Overfull \hbox (6.0pt too wide) in paragraph at lines 297--298
  [] 
  []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 ** Conference Paper **
@@ -657,8 +652,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[5 <./images/intersection_load.png> <./images/vehicle_motion.png>]
-(./report.aux)
+[6 <./images/vehicle_motion.png>] (./report.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -668,10 +662,10 @@ LaTeX Warning: There were multiply-defined labels.
 ### semi simple group (level 1) entered at line 36 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 6533 strings out of 493315
- 98476 string characters out of 6137904
- 190408 words of memory out of 5000000
- 9873 multiletter control sequences out of 15000+600000
+ 6543 strings out of 493315
+ 98648 string characters out of 6137904
+ 190433 words of memory out of 5000000
+ 9882 multiletter control sequences out of 15000+600000
  37424 words of font info for 74 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,14n,42p,1037b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -682,10 +676,10 @@ al/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (5 pages, 306898 bytes).
+Output written on report.pdf (6 pages, 322509 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 58 PDF objects out of 1000 (max. 8388607)
+ 33 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

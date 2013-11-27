@@ -158,27 +158,82 @@ The DestVehicle employs a very similar model, except that there is no \texttt{ge
 
 \subsection{ Algorithms for Intersections}
 
-
+Now we've covered the behavior of vehicle clients, let's look at algorithms followed by the server process at each intersection.
 
 \subsubsection{ Dummy Algorithm}
+
+The Dummy algorithm is what we used as the baseline benchmark to measure the effectiveness of our proposed algorithms. It resembles the traditional traffic light system that loops through a predetermined set of states and durations, regardless of the real-time traffic conditions. As mentioned in Fig.~\ref{intersection_states}, we modeled the traffic light system into a static finite state machine, consisting of \texttt{VERTICAL\_STRAIGHT}, \texttt{VERTICAL\_LEFT}, \texttt{HORIZONTAL\_STRAIGHT}, and \texttt{HORIZONTAL\_LEFT}. The state machine for the Dummy algorithm is illustrated in Fig.~\ref{dummy_state}.
+
+When a vehicle sends requests to an intersection, the server puts it into one of the four queues it keeps for each traffic direction: \texttt{north}, \texttt{south}, \texttt{easy}, and \texttt{west}. At each state, the server examines the legal conditions of frontiers at the associated queues, and grants the requests if validated.
 
 \begin{figure}[h]
     \center    
     \includegraphics[width=0.25\textwidth]{images/dummy_state.png}
-	\caption{the four intersection states}
-	\label{intersection_states}
+	\caption{a finite state machine for the Dummy algorithm}
+	\label{dummy_state}
 \end{figure}
 
 \begin{figure}[h]
     \center    
     \includegraphics[width=0.2\textwidth]{images/direction.png}
-	\caption{the four intersection states}
-	\label{intersection_states}
+	\caption{Each intersection server keeps a queue to store requests coming from each direction.}
+	\label{direction}
 \end{figure}
 
 
+\begin{algorithm}
+  \KwData{Four requestQueues for each traffic direction.}
+  \KwResult{Grants requests based on the current state.}
+  init requestsQMap as a hash map of request queues with direction as keys\;
+  init FSM as the finite state machine defined in Fig.~\ref{dummy_state}\;
+  \While{running} {
+  	currentState = getState(FSM)\;
+	\For{requestsQ in legal queues of currentState}{
+		frontRequest = requestsQ.peek()\;
+		\If{frontRequest is legal}{
+			grant frontRequest \;
+			requestsQ.pop()\;
+		}
+	}
+  }
+  \caption{Dummy \label{dummy}}
+\end{algorithm}
+
+  The legal states mentioned in Algorithm.~\ref{path_vehicle} are determined according to the current state: requests queues of north and south are used when at \texttt{VERTICAL} states, while queues of east and west are used at \texttt{HORIZONTAL} states.
 
 \subsubsection{ Look-Ahead (LA) Algorithm}
+
+Instead of granting incoming requests with a fixed path specified by the vehicle, the Look-Ahead algorithm makes suggestions on the optimal action based on the real-time traffic conditions of neighboring intersections. 
+
+In Fig.~\ref{la_example}, a vehicle from the bottom right intersection is trying to reach the top left destination. Normally, an instance of PathVehicle has no prior knowledge on the traffic conditions, so it chooses both north and east with equal probability in a random walk path generating procedure. The Look-Ahead algorithm, on the other hand, sends messages to its neighboring intersection processes to get the queue sizes corresponding to the candidate actions, and suggests the vehicle to take the less-crowded route when granting the request.
+
+
+
+\begin{figure}[h]
+    \center    
+    \includegraphics[width=0.25\textwidth]{images/la_example.png}
+	\caption{Look-Ahead algorithm allows upcoming traffic to avoid neighboring gridlocks.}
+	\label{la_example}
+\end{figure}
+
+\begin{algorithm}
+  \KwData{Four requestQueues for each traffic direction.}
+  \KwResult{Grants requests based on the current state.}
+  init requestsQMap as a hash map of request queues with direction as keys\;
+  init FSM as the finite state machine defined in Fig.~\ref{dummy_state}\;
+  \While{running} {
+  	currentState = getState(FSM)\;
+	\For{requestsQ in legal queues of currentState}{
+		frontRequest = requestsQ.peek()\;
+		\If{frontRequest is legal}{
+			grant frontRequest \;
+			requestsQ.pop()\;
+		}
+	}
+  }
+  \caption{Look-Ahead (LA) \label{look_ahead}}
+\end{algorithm}
+
 
 \subsubsection{ WeightedQ-Switcher (WQS) Algorithm}
 
